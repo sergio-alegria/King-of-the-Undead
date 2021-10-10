@@ -1,5 +1,5 @@
 import pygame
-from Map import Tile
+from World import Tile
 
 class Button(Tile):
     """Button class"""
