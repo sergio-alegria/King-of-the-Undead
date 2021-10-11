@@ -12,8 +12,10 @@ class Tile():
             @id -> name of the file (without .png)
             Optional @subdir specify if not from Tileset
         """
-        self.img = pygame.image.load(f'resources/{subdir}/{id}.png').convert_alpha()
-        self.img = pygame.transform.scale(self.img, (Tile.TILE_SIZE, Tile.TILE_SIZE))   # Scale the img to the size we are using them.
+        # King-of-the-Undead\resources\Icons\button_load.png
+        print(f'King-of-the-Undead/resources/{subdir}/{id}.png')
+        self.image = pygame.image.load(f'King-of-the-Undead/resources/{subdir}/{id}.png').convert_alpha()
+        self.image = pygame.transform.scale(self.image, (Tile.TILE_SIZE, Tile.TILE_SIZE))   # Scale the img to the size we are using them.
         self.rect = self.image.get_rect()   # Rect object we gonna use to check collisions
         self.rect.topleft = (x,y)
     
@@ -34,8 +36,10 @@ class Map():
         self.id = id
         self.tiles = []
         for r in range(self.rows):
+            list = []
             for c in  range(self.cols):
-                self.tiles[r][c] = Tile(r, c, 0) # Create the tiles, all the tiles are ground
+                list.append(Tile(r, c, 0)) # Create the tiles, all the tiles are ground
+            self.tiles.append(list)
         self.x_offset = 0
         self.y_offset = 0
 

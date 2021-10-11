@@ -1,5 +1,5 @@
 import pygame
-from GUI import Elements
+from GUI import Button
 from World import Map, Tile
 
 pygame.init()
@@ -32,8 +32,8 @@ def draw_grid():
 
 # Load button images
 Utility_Buttons = {
-  "LOAD" : GUI.Button(SCREEN_WIDTH // 2, SCREEN_HEIGHT + LOWER_MARGIN - 50, "button_load", "Icons"), 
-  "SAVE" : GUI.Button(SCREEN_WIDTH // 2 + 200, SCREEN_HEIGHT + LOWER_MARGIN - 50, "button_save", "Icons")
+  "LOAD" : Button(SCREEN_WIDTH // 2, SCREEN_HEIGHT + LOWER_MARGIN - 50, "button_load"), 
+  "SAVE" : Button(SCREEN_WIDTH // 2 + 200, SCREEN_HEIGHT + LOWER_MARGIN - 50, "button_save")
 }
 
 # List with Tile Buttons
@@ -42,7 +42,7 @@ button_col = 0
 button_row = 0
 # Import all the tiles and create a button for each
 for x in range(Tile.TILE_TYPES):
-	Tile_Buttons.append(GUI.Button(SCREEN_WIDTH + (75 * button_col) + 50, 75 * button_row + 50, x))
+	Tile_Buttons.append(Button(SCREEN_WIDTH + (75 * button_col) + 50, 75 * button_row + 50, x))
 	button_col += 1
 	if button_col == 3:
 		button_row += 1

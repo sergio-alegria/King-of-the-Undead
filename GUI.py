@@ -3,12 +3,12 @@ from World import Tile
 
 class Button(Tile):
     """Button class"""
-    def __init__ (self, x, y, path):
+    def __init__ (self, x, y, id):
         """
             @x,y Topleft coords of the button.
             @image : Image to display.
         """ 
-        super().__init__()
+        super().__init__(x, y, id, "Icons")
         self.clicked = False
 
     def draw(self, screen):
