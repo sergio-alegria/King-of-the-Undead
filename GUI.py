@@ -24,13 +24,14 @@ class Button(Tile):
         # Check if button was clicked
         if self.rect.collideoint(mouse_pos):
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-                pressed = True
-                self.clicked = True
-            
+              pressed = True
+              self.clicked = True
+          
             if pygame.mouse.get_pressed()[0] == 0:
-                self.clicked = False
-            
+              self.clicked = False
+          
         # Draw button
         super().draw()  # Call the super method for drawing
 
         return pressed
+
