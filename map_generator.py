@@ -68,7 +68,12 @@ def draw_text(text, font, text_col, x, y):
 
 #create function for drawing background
 def draw_bg():
-	screen.fill(PURPLE)
+	screen.fill(PURPLE)	
+	for y, row in enumerate(world_data):
+		for x, tile in enumerate(row):
+			if tile >= 0:
+				screen.blit(img_list[0], (x * TILE_SIZE - scroll, y * TILE_SIZE))
+	
 
 #draw grid
 def draw_grid():
