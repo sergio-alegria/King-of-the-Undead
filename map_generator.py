@@ -8,10 +8,10 @@ clock = pygame.time.Clock()
 FPS = 60
 
 #game window
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
-LOWER_MARGIN = 100
-SIDE_MARGIN = 825
+SCREEN_WIDTH = 600
+SCREEN_HEIGHT = 600
+LOWER_MARGIN = 90
+SIDE_MARGIN = 750
 
 screen = pygame.display.set_mode((SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN))
 pygame.display.set_caption('Level Editor')
