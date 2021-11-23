@@ -6,4 +6,4 @@ Adornos y columnas 36-44 (9)
 
 Total: 44 tiles
 
-**Sólo la imagen 24, 25, 28 y 33 tienen que tener suelo debajo.
+**Sólo la imagen 24, 25, 28 y 33 tienen que tener suelo debajo. El suelo por defecto es el 0.
