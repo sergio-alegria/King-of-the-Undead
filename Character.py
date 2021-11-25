@@ -24,10 +24,10 @@ class Character(ABC):
                 self.pos.x -= 1
             case Dir.right :
                 self.pos.x += 1
-    
+
     def move(self, dir) -> None:
         self.dir = dir
-    
+
     def receiveDmg(self, dmg = 1) -> None:
         self.hp -= dmg
         if self.hp <= 0:
@@ -35,13 +35,16 @@ class Character(ABC):
 
     def attack(self) -> None:
         return self.dir, self.dmg
-    
+
     @abstractmethod
     def die() -> None:
         pass
 
 
 class MainCharacter(Character):
+
+    def __init__(self, id, hp, pos, dir, dmg, sprites):
+        super().__init__(self, id, hp, pos, dir, sprites)
 
     def die() -> None:
         #Fin del juego
@@ -52,9 +55,13 @@ class Enemy(Character):
 
     def __init__(self, id, hp, pos, dir, sprites):
         super().__init__(self, id, hp, pos, dir, sprites)
-    
+
     def draw(self) -> None:
         print(self.x)
+
+    def move(self, dir) -> None:
+        # Seguir al personaje principal
+        pass
 
 
 class Point():
