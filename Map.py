@@ -1,12 +1,9 @@
 from pathlib import Path
 import csv
 
-import common
+import common 
 
 DEBUG = [1]
-
-DISPLAY_ROWS = 20
-DISPLAY_COLS = 30
 
 class Map():
     def __init__(self, level):
@@ -28,10 +25,10 @@ class Map():
         matrix = []
         
         # Index calculation
-        offset_up = y-DISPLAY_ROWS//2
-        offset_down = y+DISPLAY_ROWS//2
-        offset_left = x-DISPLAY_COLS//2
-        offset_right = x+DISPLAY_COLS//2
+        offset_up = y-common.DISPLAY_ROWS//2
+        offset_down = y+common.DISPLAY_ROWS//2
+        offset_left = x-common.DISPLAY_COLS//2
+        offset_right = x+common.DISPLAY_COLS//2
         
         if offset_up < 0:
             offset_down -= offset_up # If y - is < 0 then add those rows to the other side
@@ -46,10 +43,12 @@ class Map():
         elif offset_right > common.MAX_COLS:
             offset_left -= offset_right - common.MAX_COLS
             offset_right = common.MAX_COLS 
-            
-        for row in self.grid[offset_up:offset_down+1]:
-            matrix.append(row[offset_left:offset_right+1])
-        print(matrix)
+        
+        print(f"{offset_up   = }  {offset_down  = }")
+        print(f"{offset_left = }  {offset_right = }")
+        for row in self.grid[offset_up:offset_down]:
+            matrix.append(row[offset_left:offset_right])
+        return matrix
             
 
 def debug_grid(map):
@@ -58,8 +57,7 @@ def debug_grid(map):
 
 
 if __name__ == "__main__":
-   some_map = Map(0)
-   some_map.diplayable_sub_matrix(0,0)
+    pass
    
     
         
