@@ -8,6 +8,8 @@ import pygame
 from Map import Map
 import common
 
+
+
 #define colours
 GREEN = (144, 201, 120)
 WHITE = (255, 255, 255)
@@ -20,7 +22,7 @@ pygame.init()
 clock = pygame.time.Clock()
 FPS = 60
 
-TILE_SIZE = 60
+TILE_SIZE = 64
 # Display 16x16 tiles to the player
 SCREEN_WIDTH = common.DISPLAY_COLS * TILE_SIZE
 SCREEN_HEIGHT = common.DISPLAY_ROWS * TILE_SIZE
@@ -54,18 +56,20 @@ def draw_bg():
 #function for drawing the world tiles
 def draw_map(map, x=0, y=0):
     screen.fill(BLACK)
-    aux = map.diplayable_sub_matrix(x,y)
-    for j, row in enumerate(aux):
+    for j, row in enumerate(map.grid):
         for i, tile in enumerate(row):
             if tile >= 0:
-                screen.blit(img_list[tile], (i * TILE_SIZE, j * TILE_SIZE))
+                screen.blit(img_list[tile], (i * TILE_SIZE - base_x, j * TILE_SIZE - base_y))
 
+base_x = 0
+base_y = 0
 def main():
+    global base_x, base_y
     run = True
-    map_test = Map(1)
+    map_test = Map(0)
     draw_map(map=map_test)
-    base_x = 0
-    base_y = 0 
+    
+    #Display variables 
     scroll_left = False
     scroll_right = False
     scroll_up = False
@@ -73,40 +77,44 @@ def main():
     while run:
         clock.tick(FPS)
         #draw_bg()
-        screen.fill(BLACK)
-        draw_map(map=map_test, x=int(base_x), y=int(base_y))
+        
         #scroll the map
         if scroll_left is True and base_x > 0:
-            base_x -= 0.5
-        if scroll_right is True and base_x < common.MAX_COLS:
-            base_x += 0.5
+            base_x -= common.speed
+        if scroll_right is True and base_x < common.MAX_COLS*TILE_SIZE:
+            base_x += common.speed
         if scroll_up is True and base_y > 0:
-            base_y -= 0.5
-        if scroll_down is True and base_y < common.ROWS:
-            base_y += 0.5
+            base_y -=  common.speed
+        if scroll_down is True and base_y < common.DISPLAY_ROWS*TILE_SIZE:
+            base_y +=  common.speed
         
+        # Draw the map
+        screen.fill(BLACK)
+        draw_map(map=map_test, x=int(base_x), y=int(base_y))
+        
+        # Check events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             #keyboard presses
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_w:
                     scroll_up = True
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_s:
                     scroll_down = True
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_a:
                     scroll_left = True
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_d:
                     scroll_right = True
 
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_w:
                     scroll_up = False
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_s:
                     scroll_down = False
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_a:
                     scroll_left = False
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_d:
                     scroll_right = False
 
         print(f'{base_x = }\t{base_y = }')

@@ -1,16 +1,21 @@
 from pathlib import Path
 import csv
-
 import common 
 
+DEBUG_ROW = 5
 DEBUG = [1]
 
 class Map():
-    def __init__(self, level):
+    def __init__(self, level, debug=False):
         self.level = level
         self.grid = [[-1]*common.MAX_COLS]*common.ROWS
-        self.load_from_csv()
-    
+        if not debug :
+            self.load_from_csv()
+        else: 
+            self.grid = []
+            for i in range(DEBUG_ROW):
+                 self.grid.append([j+10*i for j in range(DEBUG_ROW)])
+            print(self.grid)
     def load_from_csv(self):
         path = Path("levels")
         path = path / f"level{self.level}_data.csv"

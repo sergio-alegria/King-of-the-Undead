@@ -1,13 +1,18 @@
 from abc import ABC, abstractmethod
-from common import Dir
+import common
 
 class Character(ABC):
-
     def __init__(self, id, hp, pos, dir, dmg, sprites):
+        """
+            Init class for the character
+            
+            :param id: Character´s id
+            :type id: int
+        """
         self.id = id
         self.hp = hp
         self.pos = pos
-        self.dir = Dir.stall
+        self.dir = common.Dir.stall
         self.dmg = dmg
         self.sprites = sprites
 
@@ -16,14 +21,14 @@ class Character(ABC):
 
     def update(self) -> None:
         match self.dir:
-            case Dir.up :
-                self.pos.y += 1
-            case Dir.down :
-                self.pos.y -= 1
-            case Dir.left :
-                self.pos.x -= 1
-            case Dir.right :
-                self.pos.x += 1
+            case common.Dir.up :
+                self.pos.y += common.speed
+            case common.Dir.down :
+                self.pos.y -= common.speed
+            case common.Dir.left :
+                self.pos.x -= common.speed
+            case common.Dir.right :
+                self.pos.x += common.speed
 
     def move(self, dir) -> None:
         self.dir = dir
