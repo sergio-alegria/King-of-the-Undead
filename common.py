@@ -2,6 +2,7 @@ from enum import Enum
 
 # Map variables
 DISPLAY_ROWS = 12
+DISPLAY_COLS = 18
 
 ROWS = 25
 MAX_COLS = 100
