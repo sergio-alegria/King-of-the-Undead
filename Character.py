@@ -48,7 +48,15 @@ class Character(ABC):
         pass
 
     def update(self) -> None:
-        match self.dir:
+        if self.dir == common.Dir.up:
+            self.pos.y += common.speed
+        elif self.dir == common.Dir.down:
+            self.pos.y -= common.speed
+        elif self.dir == common.Dir.left:
+            self.pos.x -= common.speed
+        elif self.dir == common.Dir.right:
+            self.pos.x += common.speed
+        '''match self.dir:
             case common.Dir.up :
                 self.pos.y += common.speed
             case common.Dir.down :
@@ -56,7 +64,7 @@ class Character(ABC):
             case common.Dir.left :
                 self.pos.x -= common.speed
             case common.Dir.right :
-                self.pos.x += common.speed
+                self.pos.x += common.speed'''
 
     def update_animation(self) -> None:
         #self.image = character_dict[]
