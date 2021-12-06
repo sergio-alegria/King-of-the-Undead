@@ -5,27 +5,25 @@ import common
 DEBUG_ROW = 5
 DEBUG = [1]
 
+
 class Map():
-    def __init__(self, level, debug=False):
+    def __init__(self, level):
         self.level = level
-        self.grid = [[-1]*common.MAX_COLS]*common.ROWS
-        if not debug :
-            self.load_from_csv()
-        else: 
-            self.grid = []
-            for i in range(DEBUG_ROW):
-                 self.grid.append([j+10*i for j in range(DEBUG_ROW)])
-            print(self.grid)
+        self.grid = []
+        self.load_from_csv()
+        
+        print(f'{self.grid = }')
+        
     def load_from_csv(self):
         path = Path("levels")
         path = path / f"level{self.level}_data.csv"
+        print(f'{path = }')
         with open(path, newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
-            for x, row in enumerate(reader):
-                print(row)
-                for y, tile in enumerate(row):
-                    self.grid[x][y] = int(tile) 
-    
+            for row in reader:
+                self.grid.append([int(e) for e in row])
+               
+                
     def diplayable_sub_matrix(self, x, y):
         matrix = []
         
@@ -62,8 +60,9 @@ def debug_grid(map):
 
 
 if __name__ == "__main__":
-    pass
-   
+    m = Map(0)
+    #print(f'{m.grid = }')
+        
     
         
         
