@@ -1,8 +1,8 @@
 from enum import Enum
 
 # Map variables
-DISPLAY_ROWS = 10
-DISPLAY_COLS = 15
+DISPLAY_ROWS = 13
+DISPLAY_COLS = 13
 
 TILE_SIZE = 44
 
@@ -11,6 +11,11 @@ MAX_COLS = 100
 
 # Game variables
 speed = 3
+
+# Key = backforund image, values = tile that need that bg
+NEED_BAKGROUND = {
+    0 : [1,2,3]
+}
 
 class Dir(Enum):
     up = 0

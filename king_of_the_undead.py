@@ -66,7 +66,7 @@ base_y = 0
 def main():
     global base_x, base_y
     run = True
-    map_test = Map(1)
+    map_test = Map(2)
     draw_map(map=map_test)
     
     #Display variables 
