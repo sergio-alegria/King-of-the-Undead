@@ -12,12 +12,12 @@ class Map():
         self.grid = []
         self.load_from_csv()
         
-        print(f'{self.grid = }')
+        #print(f'{self.grid = }')
         
     def load_from_csv(self):
         path = Path("levels")
         path = path / f"level{self.level}_data.csv"
-        print(f'{path = }')
+        #print(f'{path = }')
         with open(path, newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
             for row in reader:
