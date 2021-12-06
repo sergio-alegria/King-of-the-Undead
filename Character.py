@@ -1,5 +1,32 @@
 from abc import ABC, abstractmethod
 import common
+import pygame
+
+#store character images un a list
+character_dict = {"Top_walk" : [],
+                  "Top_walk_S" : [],
+                  "Down_walk" : [],
+                  "Down_walk_S" : [],
+                  "Rside_walk" : [],
+                  "Rside_walk_S" : [],
+                  "Lside_walk" : [],
+                  "Lside_walk_S" : [],
+                  "Top_attack" : [],
+                  "Down_attack" : [],
+                  "Lside_attack" : [],
+                  "Rside_attack" : [],
+                  "Dying" : []}
+
+character_list = (8, 8, 8, 8, 8, 12, 0, 8, 6, 6, 6, 6, 4)
+
+for i in character_dict:
+    for j in character_list:
+        for k in range(j):
+            img = pygame.image.load(f'resources/Sprites pj/{i}/{i}-{k + 1}.png').convert_alpha()
+            img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
+            character_dict[i] = img
+            break
+    break
 
 class Character(ABC):
     def __init__(self, id, hp, pos, dir, dmg, sprites):
@@ -17,6 +44,7 @@ class Character(ABC):
         self.sprites = sprites
 
     def draw(self) -> None:
+        #screen.blit(self.image, self.rect)
         pass
 
     def update(self) -> None:
@@ -29,6 +57,10 @@ class Character(ABC):
                 self.pos.x -= common.speed
             case common.Dir.right :
                 self.pos.x += common.speed
+
+    def update_animation(self) -> None:
+        #self.image = character_dict[]
+        pass
 
     def move(self, dir) -> None:
         self.dir = dir

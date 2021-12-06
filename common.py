@@ -1,8 +1,10 @@
 from enum import Enum
 
 # Map variables
-DISPLAY_ROWS = 12
-DISPLAY_COLS = 18
+DISPLAY_ROWS = 8
+DISPLAY_COLS = 12
+
+TILE_SIZE = 64
 
 ROWS = 25
 MAX_COLS = 100
