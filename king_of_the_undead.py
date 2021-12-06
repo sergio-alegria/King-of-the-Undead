@@ -22,7 +22,7 @@ pygame.init()
 clock = pygame.time.Clock()
 FPS = 60
 
-TILE_SIZE = 64
+TILE_SIZE = common.TILE_SIZE
 # Display 16x16 tiles to the player
 SCREEN_WIDTH = common.DISPLAY_COLS * TILE_SIZE
 SCREEN_HEIGHT = common.DISPLAY_ROWS * TILE_SIZE
@@ -66,7 +66,7 @@ base_y = 0
 def main():
     global base_x, base_y
     run = True
-    map_test = Map(0)
+    map_test = Map(1)
     draw_map(map=map_test)
     
     #Display variables 
