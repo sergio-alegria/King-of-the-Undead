@@ -10,7 +10,7 @@ ROWS = 20
 MAX_COLS = 50
 
 # Game variables
-speed = 3
+speed = 1
 
 # Key = backforund image, values = tile that need that bg
 NEED_BAKGROUND = {
