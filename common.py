@@ -4,7 +4,7 @@ from enum import Enum
 DISPLAY_ROWS = 13
 DISPLAY_COLS = 13
 
-TILE_SIZE = 44
+TILE_SIZE = 45
 
 ROWS = 20
 MAX_COLS = 50

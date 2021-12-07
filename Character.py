@@ -2,7 +2,7 @@ import common
 import pygame
 
 class Character():
-    def __init__(self, id, hp, pos, dmg, sprites):
+    def __init__(self, id, hp, pos, dmg, sprites, starting_sprite="Stall"):
         """
             Init class for the character
             
@@ -14,7 +14,7 @@ class Character():
         self.pos = Point(pos[0], pos[1])
         self.dmg = dmg
         self.sprites = sprites
-        self.sprite_key = "Stall"
+        self.sprite_key = starting_sprite
         self.img_index = 0
         self.image = sprites[ self.sprite_key][self.img_index]
         print(f'{self.image = }')

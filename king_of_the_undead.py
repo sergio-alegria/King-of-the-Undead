@@ -52,29 +52,34 @@ main_character_animations = {"Top_walk" : [],
                              "Dying" : [],
                              "Stall" : []}
 
-mobs_animations = {"Ghost" : [{"Down_walk" : [], 
+mobs_animations = {"Ghost" : {"Down_walk" : [], 
                                "Top_walk" : [], 
                                "Rside_walk" : [],
                                "Lside_walk" : [],
-                               "Dying" : []}],
-                   "Goblin" : [{"Down_walk" : [], 
+                               "Dying" : []
+                    },
+                   "Goblin" : {
+                                "Down_walk" : [], 
                                 "Top_walk" : [], 
                                 "Rside_walk" : [],
                                 "Lside_walk" : [],
-                                "Dying" : []}],
-                   "Skeleton" : [{"Down_walk" : [], 
+                                "Dying" : []
+                    },
+                   "Skeleton" : {"Down_walk" : [], 
                                   "Top_walk" : [], 
                                   "Rside_walk" : [],
                                   "Lside_walk" : [],
-                                  "Dying" : []}],
-                   "Wizard" : [{"Down_walk" : [], 
-                                "Top_walk" : [], 
-                                "Rside_walk" : [],
-                                "Lside_walk" : [],
-                                "Dying" : []}]}
-    
+                                  "Dying" : []
+                    },
+                   "Wizard" : {
+                        "Down_walk" : [], 
+                        "Top_walk" : [], 
+                        "Rside_walk" : [],
+                        "Lside_walk" : [],
+                        "Dying" : []}
+                    }
+ANIMATION_TYPES = ["Down_walk","Top_walk","Rside_walk","Lside_walk","Dying"]  
 main_character_list = (8, 8, 8, 8, 8, 12, 8, 6, 6, 6, 6, 4, 1)
-mobs_list = (2, 2, 2, 2, 1)
 
 for i, j in zip(main_character_animations,main_character_list):
     for k in range(j):
@@ -82,8 +87,19 @@ for i, j in zip(main_character_animations,main_character_list):
         img = pygame.image.load(f'resources/Sprites pj/{i}/{i}-{k + 1}.png').convert_alpha()
         img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
         main_character_animations[i].append(img)
-
-
+for key, mob_dict in mobs_animations.items():
+    print(mob_dict.__class__)
+    for type in ANIMATION_TYPES[:-1]:
+        for i in range(2):
+            img = pygame.image.load(f'resources/Sprites mobs/{key}/{type}/{type}-{i+1}.png').convert_alpha()
+            img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
+            mobs_animations[key][type].append(img)
+    img = pygame.image.load(f'resources/Sprites mobs/{key}/Dying/Dying-1.png').convert_alpha()
+    img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
+    mobs_animations[key]["Dying"].append(img)
+print(mobs_animations)
+             
+       
 #store tiles in a list
 img_list = []
 for x in range(TILE_TYPES):
@@ -136,6 +152,11 @@ def main():
     draw_map(map=map_test)
     
     characters.append(Character(0,10,[common.DISPLAY_COLS//2*TILE_SIZE, common.DISPLAY_ROWS//2*TILE_SIZE], 1, main_character_animations))
+    characters.append(Character(0,10, [2*TILE_SIZE,2*TILE_SIZE], 1, mobs_animations["Ghost"], "Down_walk"))
+    characters.append(Character(0,10, [4*TILE_SIZE,2*TILE_SIZE], 1, mobs_animations["Wizard"], "Down_walk"))
+    characters.append(Character(0,10, [6*TILE_SIZE,2*TILE_SIZE], 1, mobs_animations["Skeleton"], "Down_walk"))
+    characters.append(Character(0,10, [8*TILE_SIZE,2*TILE_SIZE], 1, mobs_animations["Goblin"], "Down_walk"))
+    
     #Display variables 
     scroll_left = False
     scroll_right = False
