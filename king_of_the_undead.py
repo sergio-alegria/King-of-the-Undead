@@ -52,15 +52,36 @@ main_character_animations = {"Top_walk" : [],
                              "Dying" : [],
                              "Stall" : []}
 
-character_list = (8, 8, 8, 8, 8, 12, 8, 6, 6, 6, 6, 4, 1)
+mobs_animations = {"Ghost" : [{"Down_walk" : [], 
+                               "Top_walk" : [], 
+                               "Rside_walk" : [],
+                               "Lside_walk" : [],
+                               "Dying" : []}],
+                   "Goblin" : [{"Down_walk" : [], 
+                                "Top_walk" : [], 
+                                "Rside_walk" : [],
+                                "Lside_walk" : [],
+                                "Dying" : []}],
+                   "Skeleton" : [{"Down_walk" : [], 
+                                  "Top_walk" : [], 
+                                  "Rside_walk" : [],
+                                  "Lside_walk" : [],
+                                  "Dying" : []}],
+                   "Wizard" : [{"Down_walk" : [], 
+                                "Top_walk" : [], 
+                                "Rside_walk" : [],
+                                "Lside_walk" : [],
+                                "Dying" : []}]}
+    
+main_character_list = (8, 8, 8, 8, 8, 12, 8, 6, 6, 6, 6, 4, 1)
+mobs_list = (2, 2, 2, 2, 1)
 
-for i, j in zip(main_character_animations,character_list):
+for i, j in zip(main_character_animations,main_character_list):
     for k in range(j):
         print(f'resources/Sprites pj/{i}/{i}-{k + 1}.png')
         img = pygame.image.load(f'resources/Sprites pj/{i}/{i}-{k + 1}.png').convert_alpha()
         img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
         main_character_animations[i].append(img)
-#print(main_character_animations)
 
 
 #store tiles in a list
