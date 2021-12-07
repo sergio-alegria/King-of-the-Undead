@@ -121,7 +121,7 @@ def draw_characters():
     global frame_counter
     frame_counter += 1
     for c in characters:
-        print(c.image)
+        #print(c.image)
         screen.blit(c.image, (c.pos.x, c.pos.y))
         if frame_counter == FRAMES_PER_IMAGE: 
             c.update()
@@ -135,7 +135,7 @@ def main():
     map_test = Map(2)
     draw_map(map=map_test)
     
-    characters.append(Character(0,10,[5, 5], 1, main_character_animations))
+    characters.append(Character(0,10,[common.DISPLAY_COLS//2*TILE_SIZE, common.DISPLAY_ROWS//2*TILE_SIZE], 1, main_character_animations))
     #Display variables 
     scroll_left = False
     scroll_right = False
