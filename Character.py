@@ -1,8 +1,18 @@
+import pygame
 import common
 import random 
 
+
+class Point():
+    def __init__(self, x : int = None, y : int = None):
+        self.x = x
+        self.y = y
+        
+    def toTuple(self):
+        return (self.x,self.y)
+        
 class Character():
-    def __init__(self, id, hp, pos, dmg, sprites, starting_sprite="Stall"):
+    def __init__(self, id, hp, pos, sprites, starting_sprite="Stall"):
         """
             Init class for the character
             
@@ -12,11 +22,12 @@ class Character():
         self.id = id
         self.hp = hp
         self.pos = Point(pos[0], pos[1])
-        self.dmg = dmg
+        self.weapon = Weapon(1, 10)
         self.sprites = sprites
         self.sprite_key = starting_sprite
         self.img_index = 0
-        self.image = sprites[ self.sprite_key][self.img_index]
+        self.image = sprites[self.sprite_key][self.img_index]
+        self.dir = common.Dir.stall
         print(f'{self.image = }')
 
     def update(self) -> None:
@@ -29,6 +40,7 @@ class Character():
         self.index = 0
         
     def move(self, dir) -> None:
+        self.dir = dir
         if dir == common.Dir.up:
             self.pos.y += common.speed
             self.change_sprite("Down_walk_S")
@@ -44,16 +56,20 @@ class Character():
         elif dir == common.Dir.stall:
             self.change_sprite("Stall")
 
-    def receiveDmg(self, dmg = 1) -> None:
+    def receive_dmg(self, dmg) -> bool:
         self.hp -= dmg
         if self.hp <= 0:
-            self.die()
+           return self.die()
+        return False
+         
 
-    def attack(self) -> None:
-        pass
-
-    def die() -> None:
-        pass
+    def attack(self):
+        direction = self.sprite_key.split("_")[0]
+        self.change_sprite(f"{direction}_attack")
+        return self.dir, self.weapon.dmg
+        
+    def die(self) -> bool:
+        return True
     
     def AI_move(self, mc_pos):
         moves = [common.Dir.stall]
@@ -68,12 +84,18 @@ class Character():
         #print(f"{self.id}\nenemy(x,y)=({self.pos.x},{self.pos.y})\nmain_char(x,y)=({mc_pos.x},{mc_pos.y})\n{moves = }")    
         self.move(moves[random.randint(0,len(moves)-1)])
 
-class Point():
+class Weapon():
+    def __init__(self, dmg, range):
+        self.dmg = dmg
+        self.range = range
+    
+    def get_rect(self, pos, direction):
+        if dir == common.Dir.up or dir == common.Dir.down:
+            return pygame.Rect(pos,(self.range/2, self.range))     
+        else: 
+            return pygame.Rect(pos,(self.range, self.range/2))
 
-    def __init__(self, x : int = None, y : int = None):
-        self.x = x
-        self.y = y
-        
+
 '''
 class MainCharacter(Character):
 
