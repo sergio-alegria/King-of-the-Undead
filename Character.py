@@ -1,5 +1,5 @@
 import common
-import pygame
+import random 
 
 class Character():
     def __init__(self, id, hp, pos, dmg, sprites, starting_sprite="Stall"):
@@ -50,10 +50,23 @@ class Character():
             self.die()
 
     def attack(self) -> None:
-        return self.dir, self.dmg
+        pass
 
     def die() -> None:
         pass
+    
+    def AI_move(self, mc_pos):
+        moves = [common.Dir.stall]
+        if self.pos.x > mc_pos.x:
+           moves.append(common.Dir.left) 
+        elif self.pos.x < mc_pos.x:
+            moves.append(common.Dir.right)
+        if self.pos.y < mc_pos.y:
+            moves.append(common.Dir.up)
+        if self.pos.y > mc_pos.y:
+            moves.append(common.Dir.down)
+        #print(f"{self.id}\nenemy(x,y)=({self.pos.x},{self.pos.y})\nmain_char(x,y)=({mc_pos.x},{mc_pos.y})\n{moves = }")    
+        self.move(moves[random.randint(0,len(moves)-1)])
 
 class Point():
 

@@ -52,51 +52,56 @@ main_character_animations = {"Top_walk" : [],
                              "Dying" : [],
                              "Stall" : []}
 
-mobs_animations = {"Ghost" : {"Down_walk" : [], 
-                               "Top_walk" : [], 
-                               "Rside_walk" : [],
-                               "Lside_walk" : [],
-                               "Dying" : []
+mobs_animations = {"Ghost" : {
+                        "Down_walk" : [], 
+                        "Top_walk" : [], 
+                        "Rside_walk" : [],
+                        "Lside_walk" : [],
+                        "Dying" : [],
+                        "Stall" : []
                     },
                    "Goblin" : {
-                                "Down_walk" : [], 
-                                "Top_walk" : [], 
-                                "Rside_walk" : [],
-                                "Lside_walk" : [],
-                                "Dying" : []
+                        "Down_walk" : [], 
+                        "Top_walk" : [], 
+                        "Rside_walk" : [],
+                        "Lside_walk" : [],
+                        "Dying" : [],
+                            "Stall" : []
                     },
-                   "Skeleton" : {"Down_walk" : [], 
-                                  "Top_walk" : [], 
-                                  "Rside_walk" : [],
-                                  "Lside_walk" : [],
-                                  "Dying" : []
+                   "Skeleton" : { 
+                       "Down_walk" : [], 
+                        "Top_walk" : [], 
+                        "Rside_walk" : [],
+                        "Lside_walk" : [],
+                        "Dying" : [],
+                        "Stall" : []
                     },
                    "Wizard" : {
                         "Down_walk" : [], 
                         "Top_walk" : [], 
                         "Rside_walk" : [],
                         "Lside_walk" : [],
-                        "Dying" : []}
+                        "Dying" : [],
+                        "Stall" : []}
                     }
-ANIMATION_TYPES = ["Down_walk","Top_walk","Rside_walk","Lside_walk","Dying"]  
+MOB_ANIMATION_TYPES = ["Down_walk","Top_walk","Rside_walk","Lside_walk","Dying", "Stall"]  
 main_character_list = (8, 8, 8, 8, 8, 12, 8, 6, 6, 6, 6, 4, 1)
 
 for i, j in zip(main_character_animations,main_character_list):
     for k in range(j):
-        print(f'resources/Sprites pj/{i}/{i}-{k + 1}.png')
-        img = pygame.image.load(f'resources/Sprites pj/{i}/{i}-{k + 1}.png').convert_alpha()
+        print(f'resources/Sprites_pj/{i}/{i}-{k + 1}.png')
+        img = pygame.image.load(f'resources/Sprites_pj/{i}/{i}-{k + 1}.png').convert_alpha()
         img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
         main_character_animations[i].append(img)
+
 for key, mob_dict in mobs_animations.items():
-    print(mob_dict.__class__)
-    for type in ANIMATION_TYPES[:-1]:
-        for i in range(2):
-            img = pygame.image.load(f'resources/Sprites mobs/{key}/{type}/{type}-{i+1}.png').convert_alpha()
+    for count, type in enumerate(MOB_ANIMATION_TYPES):
+        num_files = 2 if count < 4 else 1
+        for i in range(num_files):
+            print(f'resources/Sprites_mobs/{key}/{type}/{type}-{i+1}.png')
+            img = pygame.image.load(f'resources/Sprites_mobs/{key}/{type}/{type}-{i+1}.png').convert_alpha()
             img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
             mobs_animations[key][type].append(img)
-    img = pygame.image.load(f'resources/Sprites mobs/{key}/Dying/Dying-1.png').convert_alpha()
-    img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
-    mobs_animations[key]["Dying"].append(img)
 print(mobs_animations)
              
        
@@ -136,8 +141,12 @@ frame_counter = 0
 def draw_characters():
     global frame_counter
     frame_counter += 1
-    for c in characters:
-        #print(c.image)
+    screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
+    if frame_counter == FRAMES_PER_IMAGE: 
+        characters[0].update()
+        frame_counter = 0
+    for c in characters[0:]:
+        c.AI_move(characters[0].pos)
         screen.blit(c.image, (c.pos.x, c.pos.y))
         if frame_counter == FRAMES_PER_IMAGE: 
             c.update()
@@ -152,10 +161,10 @@ def main():
     draw_map(map=map_test)
     
     characters.append(Character(0,10,[common.DISPLAY_COLS//2*TILE_SIZE, common.DISPLAY_ROWS//2*TILE_SIZE], 1, main_character_animations))
-    characters.append(Character(0,10, [2*TILE_SIZE,2*TILE_SIZE], 1, mobs_animations["Ghost"], "Down_walk"))
-    characters.append(Character(0,10, [4*TILE_SIZE,2*TILE_SIZE], 1, mobs_animations["Wizard"], "Down_walk"))
-    characters.append(Character(0,10, [6*TILE_SIZE,2*TILE_SIZE], 1, mobs_animations["Skeleton"], "Down_walk"))
-    characters.append(Character(0,10, [8*TILE_SIZE,2*TILE_SIZE], 1, mobs_animations["Goblin"], "Down_walk"))
+    characters.append(Character(1,10, [10*TILE_SIZE,2*TILE_SIZE], 1, mobs_animations["Ghost"]))
+    characters.append(Character(2,10, [15*TILE_SIZE,7*TILE_SIZE], 1, mobs_animations["Wizard"]))
+    characters.append(Character(3,10, [20*TILE_SIZE,3*TILE_SIZE], 1, mobs_animations["Skeleton"]))
+    characters.append(Character(4,10, [25*TILE_SIZE,8*TILE_SIZE], 1, mobs_animations["Goblin"]))
     
     #Display variables 
     scroll_left = False
