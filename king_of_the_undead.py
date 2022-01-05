@@ -7,7 +7,7 @@
 import pygame
 from Map import Map
 import common
-from Character import Character
+from Character import Character, Point
 
 
 #define colours
@@ -36,7 +36,8 @@ pygame.display.set_caption('King of the Undead')
 TILE_TYPES = 44
 
 #stores all the characters
-characters = []
+characters : list[Character] = []
+
 #store character images un a list
 main_character_animations = {"Top_walk" : [],
                              "Top_walk_S" : [],
@@ -141,23 +142,22 @@ frame_counter = 0
 def draw_characters():
     global frame_counter
     frame_counter += 1
-    screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
-    if frame_counter == FRAMES_PER_IMAGE: 
+    if frame_counter >= FRAMES_PER_IMAGE: 
         characters[0].update()
         frame_counter = 0
+    screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
     for c in characters[0:]:
         c.AI_move(characters[0].pos)
-        screen.blit(c.image, (c.pos.x, c.pos.y))
-        if frame_counter == FRAMES_PER_IMAGE: 
+        if frame_counter >= FRAMES_PER_IMAGE: 
             c.update()
             frame_counter = 0
+        screen.blit(c.image, (c.pos.x, c.pos.y))
 
 def atack_enemies_in_range(character, direction):
     for e in characters[1:]:
-        print(e.image.get_rect(center=e.pos.toTuple()).colliderect(character.weapon.get_rect(character.pos.toTuple(), direction)))
         if e.image.get_rect(center=e.pos.toTuple()).colliderect(character.weapon.get_rect(character.pos.toTuple(), direction)):
-            print("Hitbox")
-            e.receive_dmg(character.weapon.dmg)
+            die = e.receive_dmg(character.weapon.dmg)
+            if die: characters.remove(e)
             
 base_x = 0
 base_y = 0
@@ -165,14 +165,14 @@ def main():
     global base_x, base_y
     attack = False 
     run = True
-    map_test = Map(2)
-    draw_map(map=map_test)
+    map = Map(2)
+    draw_map(map=map)
     
     characters.append(Character(0,10,[common.DISPLAY_COLS//2*TILE_SIZE, common.DISPLAY_ROWS//2*TILE_SIZE], main_character_animations))
-    characters.append(Character(1,2, [10*TILE_SIZE,2*TILE_SIZE], mobs_animations["Ghost"]))
-    characters.append(Character(2,3, [15*TILE_SIZE,7*TILE_SIZE], mobs_animations["Wizard"]))
-    characters.append(Character(3,4, [20*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
-    characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
+    characters.append(Character(1,10, [10*TILE_SIZE,2*TILE_SIZE], mobs_animations["Ghost"]))
+    #characters.append(Character(2,3, [15*TILE_SIZE,7*TILE_SIZE], mobs_animations["Wizard"]))
+    #characters.append(Character(3,4, [20*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
+    #characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
     
     #Display variables 
     scroll_left = False
@@ -185,6 +185,7 @@ def main():
         base_x = characters[0].pos.x
         base_y = characters[0].pos.y
         
+        prev_pos : Point = characters[0].pos 
         # movement management
         if scroll_left is True and base_x > 0:
             characters[0].move(common.Dir.left)
@@ -194,18 +195,22 @@ def main():
             characters[0].move(common.Dir.down)
         if scroll_down is True and base_y < common.DISPLAY_ROWS*TILE_SIZE:
             characters[0].move(common.Dir.up)
-        
+        # Dont move if nor accesible
+        if map.getTile(characters[0].pos) in common.WALL_TILES:
+            characters[0].pos = prev_pos
         if not (scroll_down or scroll_right or scroll_left or scroll_up):
             characters[0].move(common.Dir.stall)
-             
+        
+          
         # Draw the map
         screen.fill(BLACK)
-        draw_map(map=map_test, x=int(base_x), y=int(base_y))
+        draw_map(map=map, x=int(base_x), y=int(base_y))
         draw_characters()
         
         if attack: 
             dir = characters[0].attack()
             atack_enemies_in_range(characters[0], dir)
+            
         # Check events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -224,9 +229,11 @@ def main():
                     attack = True
 
             if event.type == pygame.KEYUP:
+                characters[0].is_moving = False
+                characters[0].img_index = 0
+                characters[0].sprite_key = "Stall"
                 if event.key == pygame.K_w:
                     scroll_up = False
-                    
                 if event.key == pygame.K_s:
                     scroll_down = False
                 if event.key == pygame.K_a:
@@ -235,6 +242,7 @@ def main():
                     scroll_right = False
                 if event.key == pygame.K_SPACE:
                     attack = False
+                    
         #print(f'{base_x = }\t{base_y = }')
         pygame.display.update()
 

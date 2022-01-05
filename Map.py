@@ -1,6 +1,7 @@
 from pathlib import Path
 import csv
 import common 
+from Character import Point
 
 DEBUG_ROW = 5
 DEBUG = [1]
@@ -12,7 +13,7 @@ class Map():
         self.grid = []
         self.load_from_csv()
         
-        #print(f'{self.grid = }')
+        print(f'{self.grid = }')
         
     def load_from_csv(self):
         path = Path("levels")
@@ -52,7 +53,14 @@ class Map():
         for row in self.grid[offset_up:offset_down]:
             matrix.append(row[offset_left:offset_right])
         return matrix
-            
+        
+    def getTile(self, pos: Point):
+        factor = common.TILE_SIZE
+        print(pos.__dict__)
+        print(f'{pos.x//factor}')
+        print(f'{pos.y//factor}')
+        print(self.grid[pos.x//factor][pos.y//factor])
+        return self.grid[pos.x//factor][pos.y//factor]    
 
 def debug_grid(map):
     for r in map.grid:
