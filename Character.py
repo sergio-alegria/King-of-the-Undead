@@ -34,19 +34,8 @@ class Character():
         print(f'{self.image = }')
 
     def update(self) -> None:
-        #update image
-        if self.attacking_frames and self.attacking_frames < Character.ATTACK_COUNTER:
-            self.attacking_counter = (self.attacking_counter + 1) % 5
-            if self.attacking_counter > 0:
-                pass    
-            self.attacking_counter += 1  
-            self.image = self.sprites[self.sprite_key][self.attacking_frames-1]
-            print(f'{self.dir} -- {self.attacking_frames}')
-            self.attacking_frames += 1
-        else:
-            self.attacking_frames = 0
-            self.img_index = (self.img_index + 1) % len(self.sprites[self.sprite_key])
-            self.image = self.sprites[self.sprite_key][self.img_index]
+        self.img_index = (self.img_index + 1) % len(self.sprites[self.sprite_key])
+        self.image = self.sprites[self.sprite_key][self.img_index]
     
     def change_sprite(self, sprite_key):
         self.sprite_key = sprite_key

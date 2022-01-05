@@ -153,9 +153,10 @@ def draw_characters():
             frame_counter = 0
 
 def atack_enemies_in_range(character, direction):
-    for e in characters[0:]:
+    for e in characters[1:]:
         print(e.image.get_rect(center=e.pos.toTuple()).colliderect(character.weapon.get_rect(character.pos.toTuple(), direction)))
         if e.image.get_rect(center=e.pos.toTuple()).colliderect(character.weapon.get_rect(character.pos.toTuple(), direction)):
+            print("Hitbox")
             e.receive_dmg(character.weapon.dmg)
             
 base_x = 0
