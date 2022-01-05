@@ -32,7 +32,7 @@ SIDE_MARGIN = 400
 screen = pygame.display.set_mode((SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT))
 screen.fill(WHITE)
 pygame.display.set_caption('King of the Undead')
-
+ 
 TILE_TYPES = 44
 
 #stores all the characters
@@ -57,7 +57,7 @@ mobs_animations = {"Ghost" : {
                         "Top_walk" : [], 
                         "Rside_walk" : [],
                         "Lside_walk" : [],
-                        "Dying" : [],
+                        "Dying" : [], 
                         "Stall" : []
                     },
                    "Goblin" : {
@@ -162,7 +162,7 @@ base_x = 0
 base_y = 0
 def main():
     global base_x, base_y
-    attack = False
+    attack = False 
     run = True
     map_test = Map(2)
     draw_map(map=map_test)
@@ -196,7 +196,7 @@ def main():
         
         if not (scroll_down or scroll_right or scroll_left or scroll_up):
             characters[0].move(common.Dir.stall)
-            
+             
         # Draw the map
         screen.fill(BLACK)
         draw_map(map=map_test, x=int(base_x), y=int(base_y))

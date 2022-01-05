@@ -12,17 +12,20 @@ class Point():
         return (self.x,self.y)
         
 class Character():
+    ATTACK_COUNTER = 7
     def __init__(self, id, hp, pos, sprites, starting_sprite="Stall"):
         """
             Init class for the character
             
-            :param id: Character´s id
+            :param id: Character's id
             :type id: int
         """
         self.id = id
         self.hp = hp
         self.pos = Point(pos[0], pos[1])
         self.weapon = Weapon(1, 10)
+        self.attacking_frames = 0
+        self.attacking_counter = 0 
         self.sprites = sprites
         self.sprite_key = starting_sprite
         self.img_index = 0
@@ -32,14 +35,26 @@ class Character():
 
     def update(self) -> None:
         #update image
-        self.img_index = (self.img_index + 1) % len(self.sprites[self.sprite_key])
-        self.image = self.sprites[self.sprite_key][self.img_index]
+        if self.attacking_frames and self.attacking_frames < Character.ATTACK_COUNTER:
+            self.attacking_counter = (self.attacking_counter + 1) % 5
+            if self.attacking_counter > 0:
+                pass    
+            self.attacking_counter += 1  
+            self.image = self.sprites[self.sprite_key][self.attacking_frames-1]
+            print(f'{self.dir} -- {self.attacking_frames}')
+            self.attacking_frames += 1
+        else:
+            self.attacking_frames = 0
+            self.img_index = (self.img_index + 1) % len(self.sprites[self.sprite_key])
+            self.image = self.sprites[self.sprite_key][self.img_index]
     
     def change_sprite(self, sprite_key):
         self.sprite_key = sprite_key
         self.index = 0
         
     def move(self, dir) -> None:
+        if self.attacking_frames:
+            pass 
         self.dir = dir
         if dir == common.Dir.up:
             self.pos.y += common.speed
@@ -62,8 +77,8 @@ class Character():
            return self.die()
         return False
          
-
     def attack(self):
+        self.attacking_frames = 1
         direction = self.sprite_key.split("_")[0]
         self.change_sprite(f"{direction}_attack")
         return self.dir, self.weapon.dmg
