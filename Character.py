@@ -62,11 +62,14 @@ class Character:
             return  # If attacking dont change
         self.sprite_key = sprite_key
 
-    def move(self, dir) -> None:
+    def move(self, dir, map) -> None:
         if self.attacking_frames:
             pass
         if dir == self.dir:
             return
+
+        prev_pos = self.pos
+
         self.is_moving = True
         if dir == common.Dir.up:
             self.pos.y += common.speed
@@ -82,6 +85,10 @@ class Character:
             self.change_sprite("Rside_walk_S")
         elif dir == common.Dir.stall:
             self.change_sprite("Stall")
+
+        print(map.getTile(self.pos))
+        if map.getTile(self.pos) in common.WALL_TILES:
+            self.pos = prev_pos
 
     def receive_dmg(self, dmg) -> bool:
         self.hp -= dmg
@@ -102,7 +109,7 @@ class Character:
         self.died_counter = 1
         self.change_sprite("Dying")
 
-    def AI_move(self, mc_pos):
+    def AI_move(self, mc_pos, map):
         self.is_moving = True
         moves = [common.Dir.stall]
         if self.pos.x > mc_pos.x:
@@ -114,14 +121,24 @@ class Character:
         if self.pos.y > mc_pos.y:
             moves.append(common.Dir.down)
         # print(f"{self.id}\nenemy(x,y)=({self.pos.x},{self.pos.y})\nmain_char(x,y)=({mc_pos.x},{mc_pos.y})\n{moves = }")
-        self.move(moves[random.randint(0, len(moves) - 1)])
+        self.move(moves[random.randint(0, len(moves) - 1)], map)
 
     def AI_move_a_star(self, map, pos: Point):
         self.is_moving = True
         moves = [common.Dir.stall]
+
         nmap = numpy.array(map)
-        print(map)
-        print(a_star_matrix.astar(nmap, self.pos.toTuple(), pos.toTuple()))
+
+        mob_x, mob_y = self.pos.toTuple()
+        character_x, character_y = pos.toTuple()
+
+        print(
+            a_star_matrix.astar(
+                nmap,
+                (mob_x / common.TILE_SIZE, mob_y / common.TILE_SIZE),
+                (character_x / common.TILE_SIZE, character_y / common.TILE_SIZE),
+            )
+        )
 
 
 """

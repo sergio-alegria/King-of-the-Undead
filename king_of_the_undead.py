@@ -168,8 +168,8 @@ def draw_characters(map):
         frame_counter = 0
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
     for c in characters[0:]:
-        # c.AI_move(characters[0].pos)
-        c.AI_move_a_star(map, characters[0].pos)
+        c.AI_move(characters[0].pos, map)
+        # c.AI_move_a_star(map, characters[0].pos)
         if frame_counter >= FRAMES_PER_IMAGE:
             c.update()
             frame_counter = 0
@@ -229,23 +229,23 @@ def main():
         prev_pos: Point = characters[0].pos
         # movement management
         if scroll_left is True and base_x > 0:
-            characters[0].move(common.Dir.left)
+            characters[0].move(common.Dir.left, map)
         if scroll_right is True and base_x < common.MAX_COLS * TILE_SIZE:
-            characters[0].move(common.Dir.right)
+            characters[0].move(common.Dir.right, map)
         if scroll_up is True and base_y > 0:
-            characters[0].move(common.Dir.down)
+            characters[0].move(common.Dir.down, map)
         if scroll_down is True and base_y < common.DISPLAY_ROWS * TILE_SIZE:
-            characters[0].move(common.Dir.up)
+            characters[0].move(common.Dir.up, map)
         # Dont move if nor accesible
         if map.getTile(characters[0].pos) in common.WALL_TILES:
             characters[0].pos = prev_pos
         if not (scroll_down or scroll_right or scroll_left or scroll_up):
-            characters[0].move(common.Dir.stall)
+            characters[0].move(common.Dir.stall, map)
 
         # Draw the map
         screen.fill(BLACK)
         draw_map(map=map, x=int(base_x), y=int(base_y))
-        draw_characters(map.parse_map())
+        draw_characters(map)
 
         if attack:
             dir = characters[0].attack()
