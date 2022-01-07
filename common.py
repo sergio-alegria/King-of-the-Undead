@@ -1,10 +1,14 @@
 from enum import Enum
 
+from numpy import common_type, tile
+
 # Map variables
 DISPLAY_ROWS = 13
 DISPLAY_COLS = 13
 
 TILE_SIZE = 45
+
+TILE_TYPES = 45
 
 ROWS = 20
 MAX_COLS = 50
@@ -17,7 +21,7 @@ NEED_BAKGROUND = {
     0: [15, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 38]
 }
 
-WALL_TILES = [33]
+FLOOR = [0,1,2,3,4,39]
 
 
 class Dir(Enum):
@@ -32,6 +36,21 @@ class Point:
     def __init__(self, x: int = None, y: int = None):
         self.x = x
         self.y = y
+        self.factor = int(TILE_SIZE/2)
+        self.i = int(self.x/self.factor)
+        self.j = int(self.y/self.factor)
 
+    def update_y(self, value):
+        self.y += value
+        self.j =  int(self.x/self.factor)
+        self.j = 0 if self.j < 2 else self.j + 2 
+        
+    def update_x(self, value):
+        self.x += value
+        self.i =  int(self.y/self.factor)
+        self.i = 0 if self.j < 2 else self.j + 2  
     def toTuple(self):
         return (self.x, self.y)
+
+    def toMatrixIndex(self):
+        return self.i, self.j

@@ -5,6 +5,7 @@
 """
 
 import pygame
+from pygame.constants import TEXTEDITING
 from Map import Map
 import common
 from Character import Character, Point
@@ -23,6 +24,7 @@ clock = pygame.time.Clock()
 FPS = 60
 
 TILE_SIZE = common.TILE_SIZE
+
 # Display 16x16 tiles to the player
 SCREEN_WIDTH = common.DISPLAY_COLS * TILE_SIZE
 SCREEN_HEIGHT = common.DISPLAY_ROWS * TILE_SIZE
@@ -32,8 +34,6 @@ SIDE_MARGIN = 400
 screen = pygame.display.set_mode((SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT))
 screen.fill(WHITE)
 pygame.display.set_caption("King of the Undead")
-
-TILE_TYPES = 44
 
 # stores all the characters
 characters: list[Character] = []
@@ -120,11 +120,10 @@ for key, mob_dict in mobs_animations.items():
 
 # store tiles in a list
 img_list = []
-for x in range(TILE_TYPES):
-    img = pygame.image.load(f"resources/Tileset/{x}.png").convert_alpha()
-    img = pygame.transform.scale(img, (TILE_SIZE, TILE_SIZE))
+for x in range(common.TILE_TYPES):
+    img = pygame.transform.scale(pygame.image.load(f"resources/Tileset/{x}.png").convert_alpha(), (TILE_SIZE, TILE_SIZE))
     img_list.append(img)
-
+for i, _ in enumerate(img_list): print(i)
 save_img = pygame.image.load("resources/Icons/save_btn.png").convert_alpha()
 load_img = pygame.image.load("resources/Icons/load_btn.png").convert_alpha()
 
@@ -145,26 +144,21 @@ def draw_map(map, x=0, y=0):
         for i, tile in enumerate(row):
             if tile >= 0:
                 for key, list in common.NEED_BAKGROUND.items():
-                    # print(key, list)
                     if tile in list:
-                        screen.blit(
-                            img_list[key],
-                            (i * TILE_SIZE - base_x, j * TILE_SIZE - base_y),
-                        )
-                screen.blit(
-                    img_list[tile], (i * TILE_SIZE - base_x, j * TILE_SIZE - base_y)
-                )
+                        screen.blit(img_list[key],(i * TILE_SIZE - base_x, j * TILE_SIZE - base_y))
+                screen.blit(img_list[tile], (i * TILE_SIZE - base_x, j * TILE_SIZE - base_y))
 
 
 FRAMES_PER_IMAGE = 5
 frame_counter = 0
-
 
 def draw_characters(map):
     global frame_counter
     frame_counter += 1
     if frame_counter >= FRAMES_PER_IMAGE:
         characters[0].update()
+        print(characters[0].pos.__dict__)
+        print(map.getTile(characters[0].pos))
         frame_counter = 0
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
     for c in characters[0:]:
@@ -194,11 +188,10 @@ def main():
     global base_x, base_y
     attack = False
     run = True
-    map = Map(2)
+    map = Map(0)
     draw_map(map=map)
 
-    characters.append(
-        Character(
+    """Character(
             0,
             10,
             [
@@ -206,14 +199,22 @@ def main():
                 common.DISPLAY_ROWS // 2 * TILE_SIZE,
             ],
             main_character_animations,
+        )"""
+    characters.append(
+        Character(
+            0,
+            10,
+            [
+                2 * TILE_SIZE/2,
+                2 * TILE_SIZE/2,
+            ],
+            main_character_animations,
         )
     )
-    characters.append(
-        Character(1, 10, [10 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"])
-    )
-    # characters.append(Character(2,3, [15*TILE_SIZE,7*TILE_SIZE], mobs_animations["Wizard"]))
-    # characters.append(Character(3,4, [20*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
-    # characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
+    #characters.append(Character(1, 10, [10 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]))
+    #characters.append(Character(2,3, [15*TILE_SIZE,7*TILE_SIZE], mobs_animations["Wizard"]))
+    #characters.append(Character(3,4, [20*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
+    #characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
 
     # Display variables
     scroll_left = False
@@ -237,7 +238,7 @@ def main():
         if scroll_down is True and base_y < common.DISPLAY_ROWS * TILE_SIZE:
             characters[0].move(common.Dir.up, map)
         # Dont move if nor accesible
-        if map.getTile(characters[0].pos) in common.WALL_TILES:
+        if map.getTile(characters[0].pos) not in common.FLOOR:
             characters[0].pos = prev_pos
         if not (scroll_down or scroll_right or scroll_left or scroll_up):
             characters[0].move(common.Dir.stall, map)

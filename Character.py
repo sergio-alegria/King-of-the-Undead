@@ -56,7 +56,6 @@ class Character:
             pass
         finally:
             self.image = self.sprites[self.sprite_key][self.img_index]
-
     def change_sprite(self, sprite_key):
         if self.is_attacking:
             return  # If attacking dont change
@@ -68,27 +67,26 @@ class Character:
         if dir == self.dir:
             return
 
-        prev_pos = self.pos
+        prev_pos_point = self.pos
+        prev_pos = self.pos.toTuple()
 
         self.is_moving = True
         if dir == common.Dir.up:
-            self.pos.y += common.speed
+            self.pos.update_y(common.speed)
             self.change_sprite("Down_walk_S")
         elif dir == common.Dir.down:
-            self.pos.y -= common.speed
+            self.pos.update_y(-common.speed)
             self.change_sprite("Top_walk_S")
         elif dir == common.Dir.left:
-            self.pos.x -= common.speed
+            self.pos.update_x(-common.speed)
             self.change_sprite("Lside_walk_S")
         elif dir == common.Dir.right:
-            self.pos.x += common.speed
+            self.pos.update_x(common.speed)
             self.change_sprite("Rside_walk_S")
         elif dir == common.Dir.stall:
             self.change_sprite("Stall")
-
-        print(map.getTile(self.pos))
-        if map.getTile(self.pos) in common.WALL_TILES:
-            self.pos = prev_pos
+        if map.getTile(self.pos) not in common.FLOOR:
+            self.pos = Point(*prev_pos)
 
     def receive_dmg(self, dmg) -> bool:
         self.hp -= dmg
