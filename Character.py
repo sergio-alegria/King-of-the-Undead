@@ -117,17 +117,6 @@ class Character():
         #print(f"{self.id}\nenemy(x,y)=({self.pos.x},{self.pos.y})\nmain_char(x,y)=({mc_pos.x},{mc_pos.y})\n{moves = }")    
         self.move(moves[random.randint(0,len(moves)-1)])
 
-
-    del parse_map(map):
-        map_parsed = []
-        row = []
-        for i in map:
-            for j in i:
-                if j != 0:
-                    j = -1
-                    row.append(j)
-            map_parsed.append[i]
-
     def AI_move_a_star(self):
         self.is_moving = True
         moves = [common.Dir.stall]

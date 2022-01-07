@@ -1,11 +1,10 @@
 from pathlib import Path
 import csv
-import common 
+import common
 from Character import Point
 
 DEBUG_ROW = 5
-DEBUG = [1]
-
+DEBUG = [1]   
 
 class Map():
     def __init__(self, level):
@@ -62,6 +61,12 @@ class Map():
         print(self.grid[pos.x//factor][pos.y//factor])
         return self.grid[pos.x//factor][pos.y//factor]    
 
+    def parse_map(self):
+        map_parsed = [[0 if e not in common.WALL_TILES else 1 for e in row] for row in self.grid]
+        return map_parsed
+
+
+
 def debug_grid(map):
     for r in map.grid:
         print(len(r))
@@ -69,7 +74,10 @@ def debug_grid(map):
 
 if __name__ == "__main__":
     m = Map(0)
-    #print(f'{m.grid = }')
+    with open("parsed.csv", "w") as f:
+        for row in m.parse_map():
+            f.write(str(row) + '\n')
+    
         
     
         
