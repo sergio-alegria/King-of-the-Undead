@@ -4,7 +4,6 @@
 # https://code.activestate.com/recipes/578919-python-a-pathfinding-with-binary-heap/
 
 import numpy
-from heapq import *
 
 
 def heuristic(a, b):

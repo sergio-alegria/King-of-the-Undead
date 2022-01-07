@@ -148,6 +148,7 @@ def draw_characters():
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
     for c in characters[0:]:
         c.AI_move(characters[0].pos)
+        c.AI_move_a_star()
         if frame_counter >= FRAMES_PER_IMAGE: 
             c.update()
             frame_counter = 0
@@ -166,6 +167,7 @@ def main():
     attack = False 
     run = True
     map = Map(2)
+    parse_map(map)
     draw_map(map=map)
     
     characters.append(Character(0,10,[common.DISPLAY_COLS//2*TILE_SIZE, common.DISPLAY_ROWS//2*TILE_SIZE], main_character_animations))

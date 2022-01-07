@@ -1,6 +1,8 @@
 import pygame
 import common
 import random 
+import a_star_matrix
+import numpy
 
 
 class Point():
@@ -116,6 +118,32 @@ class Character():
         self.move(moves[random.randint(0,len(moves)-1)])
 
 
+    del parse_map(map):
+        map_parsed = []
+        row = []
+        for i in map:
+            for j in i:
+                if j != 0:
+                    j = -1
+                    row.append(j)
+            map_parsed.append[i]
+
+    def AI_move_a_star(self):
+        self.is_moving = True
+        moves = [common.Dir.stall]
+        nmap = numpy.array([
+                           [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                           [1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+                           [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                           [1,0,1,1,1,1,1,1,1,1,1,1,1,1],
+                           [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                           [1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+                           [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                           [1,0,1,1,1,1,1,1,1,1,1,1,1,1],
+                           [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                           [1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+                           [0,0,0,0,0,0,0,0,0,0,0,0,0,0]])
+        print(a_star_matrix.astar(nmap, (0,0), (10,13)))
 
 '''
 class MainCharacter(Character):
