@@ -1,50 +1,76 @@
 import pygame
 import common
-import random 
+import random
+import a_star_matrix
+import numpy
+from common import Point
 
 
-class Point():
-    def __init__(self, x : int = None, y : int = None):
-        self.x = x
-        self.y = y
-        
-    def toTuple(self):
-        return (self.x,self.y)
-        
-class Character():
-    ATTACK_COUNTER = 7
+class Weapon:
+    def __init__(self, dmg, range):
+        self.dmg = dmg
+        self.range = range
+
+    def get_rect(self, pos, direction):
+        if dir == common.Dir.up or dir == common.Dir.down:
+            return pygame.Rect(pos, (self.range / 2, self.range))
+        else:
+            return pygame.Rect(pos, (self.range, self.range / 2))
+
+
+class Character:
+    ATTACK_FRAMES = 6
+
     def __init__(self, id, hp, pos, sprites, starting_sprite="Stall"):
         """
-            Init class for the character
-            
-            :param id: Character's id
-            :type id: int
+        Init class for the character
+
+        :param id: Character's id
+        :type id: int
         """
         self.id = id
         self.hp = hp
         self.pos = Point(pos[0], pos[1])
-        self.weapon = Weapon(1, 10)
+        self.weapon = Weapon(0.5, 20)
         self.attacking_frames = 0
-        self.attacking_counter = 0 
+        self.attacking_counter = 0
         self.sprites = sprites
         self.sprite_key = starting_sprite
         self.img_index = 0
         self.image = sprites[self.sprite_key][self.img_index]
+        self.is_moving = False
+        self.is_attacking = False
+        self.delay_counter = 0
         self.dir = common.Dir.stall
-        print(f'{self.image = }')
 
     def update(self) -> None:
-        self.img_index = (self.img_index + 1) % len(self.sprites[self.sprite_key])
-        self.image = self.sprites[self.sprite_key][self.img_index]
-    
+        if self.is_attacking and self.img_index >= len(self.sprites[self.sprite_key]):
+            self.is_attacking = False
+            pass
+        try:
+            if self.is_moving:
+                self.img_index = (self.img_index + 1) % len(
+                    self.sprites[self.sprite_key]
+                )
+        except IndexError:
+            pass
+        finally:
+            self.image = self.sprites[self.sprite_key][self.img_index]
+
     def change_sprite(self, sprite_key):
+        if self.is_attacking:
+            return  # If attacking dont change
         self.sprite_key = sprite_key
-        self.index = 0
-        
-    def move(self, dir) -> None:
+
+    def move(self, dir, map) -> None:
         if self.attacking_frames:
-            pass 
-        self.dir = dir
+            pass
+        if dir == self.dir:
+            return
+
+        prev_pos = self.pos
+
+        self.is_moving = True
         if dir == common.Dir.up:
             self.pos.y += common.speed
             self.change_sprite("Down_walk_S")
@@ -60,47 +86,62 @@ class Character():
         elif dir == common.Dir.stall:
             self.change_sprite("Stall")
 
+        print(map.getTile(self.pos))
+        if map.getTile(self.pos) in common.WALL_TILES:
+            self.pos = prev_pos
+
     def receive_dmg(self, dmg) -> bool:
         self.hp -= dmg
         if self.hp <= 0:
-           return self.die()
+            return True
         return False
-         
+
     def attack(self):
-        self.attacking_frames = 1
         direction = self.sprite_key.split("_")[0]
+        if direction == "Stall":
+            direction = "Down"
+        self.prev_key = self.sprite_key
         self.change_sprite(f"{direction}_attack")
+        self.is_atacking = True
         return self.dir, self.weapon.dmg
-        
+
     def die(self) -> bool:
-        return True
-    
-    def AI_move(self, mc_pos):
+        self.died_counter = 1
+        self.change_sprite("Dying")
+
+    def AI_move(self, mc_pos, map):
+        self.is_moving = True
         moves = [common.Dir.stall]
         if self.pos.x > mc_pos.x:
-           moves.append(common.Dir.left) 
+            moves.append(common.Dir.left)
         elif self.pos.x < mc_pos.x:
             moves.append(common.Dir.right)
         if self.pos.y < mc_pos.y:
             moves.append(common.Dir.up)
         if self.pos.y > mc_pos.y:
             moves.append(common.Dir.down)
-        #print(f"{self.id}\nenemy(x,y)=({self.pos.x},{self.pos.y})\nmain_char(x,y)=({mc_pos.x},{mc_pos.y})\n{moves = }")    
-        self.move(moves[random.randint(0,len(moves)-1)])
+        # print(f"{self.id}\nenemy(x,y)=({self.pos.x},{self.pos.y})\nmain_char(x,y)=({mc_pos.x},{mc_pos.y})\n{moves = }")
+        self.move(moves[random.randint(0, len(moves) - 1)], map)
 
-class Weapon():
-    def __init__(self, dmg, range):
-        self.dmg = dmg
-        self.range = range
-    
-    def get_rect(self, pos, direction):
-        if dir == common.Dir.up or dir == common.Dir.down:
-            return pygame.Rect(pos,(self.range/2, self.range))     
-        else: 
-            return pygame.Rect(pos,(self.range, self.range/2))
+    def AI_move_a_star(self, map, pos: Point):
+        self.is_moving = True
+        moves = [common.Dir.stall]
+
+        nmap = numpy.array(map)
+
+        mob_x, mob_y = self.pos.toTuple()
+        character_x, character_y = pos.toTuple()
+
+        print(
+            a_star_matrix.astar(
+                nmap,
+                (mob_x / common.TILE_SIZE, mob_y / common.TILE_SIZE),
+                (character_x / common.TILE_SIZE, character_y / common.TILE_SIZE),
+            )
+        )
 
 
-'''
+"""
 class MainCharacter(Character):
 
     def __init__(self, id, hp, pos, dir, dmg, sprites):
@@ -131,4 +172,4 @@ class Weapon(ABC):
 
     def __init__(self, dmg):
         self.dmg = dmg
-'''
+"""
