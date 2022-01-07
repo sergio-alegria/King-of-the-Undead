@@ -101,7 +101,6 @@ main_character_list = (8, 8, 8, 8, 8, 12, 8, 6, 6, 6, 6, 4, 1)
 
 for i, j in zip(main_character_animations, main_character_list):
     for k in range(j):
-        print(f"resources/Sprites_pj/{i}/{i}-{k + 1}.png")
         img = pygame.image.load(
             f"resources/Sprites_pj/{i}/{i}-{k + 1}.png"
         ).convert_alpha()
@@ -112,13 +111,11 @@ for key, mob_dict in mobs_animations.items():
     for count, type in enumerate(MOB_ANIMATION_TYPES):
         num_files = 2 if count < 4 else 1
         for i in range(num_files):
-            print(f"resources/Sprites_mobs/{key}/{type}/{type}-{i+1}.png")
             img = pygame.image.load(
                 f"resources/Sprites_mobs/{key}/{type}/{type}-{i+1}.png"
             ).convert_alpha()
             img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
             mobs_animations[key][type].append(img)
-print(mobs_animations)
 
 
 # store tiles in a list
@@ -248,7 +245,7 @@ def main():
         # Draw the map
         screen.fill(BLACK)
         draw_map(map=map, x=int(base_x), y=int(base_y))
-        draw_characters(map.map_parsed)
+        draw_characters(map.parse_map())
 
         if attack:
             dir = characters[0].attack()

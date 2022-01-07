@@ -61,9 +61,7 @@ class Map:
         return self.grid[pos.x // factor][pos.y // factor]
 
     def parse_map(self):
-        self.map_parsed = [
-            [0 if e not in common.WALL_TILES else 1 for e in row] for row in self.grid
-        ]
+        return [[0 if e not in common.WALL_TILES else 1 for e in row] for row in self.grid]
 
 
 def debug_grid(map):
