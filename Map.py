@@ -53,12 +53,8 @@ class Map:
         return matrix
 
     def getTile(self, pos: common.Point):
-        factor = common.TILE_SIZE
-        # print(pos.__dict__)
-        # print(f"{pos.x//factor}")
-        # print(f"{pos.y//factor}")
-        # print(self.grid[pos.x // factor][pos.y // factor])
-        return self.grid[pos.x // factor][pos.y // factor]
+        i, j = pos.toMatrixIndex()
+        return self.grid[i][j]
 
     def parse_map(self):
         return [

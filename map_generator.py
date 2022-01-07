@@ -1,6 +1,7 @@
 import pygame
 import button
 import csv
+import common
 
 pygame.init()
 
@@ -21,7 +22,6 @@ pygame.display.set_caption('Level Editor')
 ROWS = 20
 MAX_COLS = 50
 TILE_SIZE = SCREEN_HEIGHT // ROWS
-TILE_TYPES = 45 #11*10 it's the max value if we want it to be "pretty"
 
 level = 0
 current_tile = 0
@@ -33,7 +33,7 @@ scroll_speed = 1
 
 #store tiles in a list
 img_list = []
-for x in range(TILE_TYPES):
+for x in range(common.TILE_TYPES):
 	img = pygame.image.load(f'resources/Tileset/{x}.png').convert_alpha()
 	img = pygame.transform.scale(img, (TILE_SIZE, TILE_SIZE))
 	img_list.append(img)
