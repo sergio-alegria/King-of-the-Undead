@@ -9,11 +9,11 @@ Total: 44 tiles
 **Sólo la imagen 24, 25, 28 y 33 tienen que tener suelo debajo. El suelo por defecto es el 0.
 
 
-Bordes sup (no bg): 28 borde izq, 24 centro, 44 borde dcha
+Bordes sup (no llevan bg): 28 borde izq, 24 centro, 44 borde dcha (las enteras)
 Puerta grande (no bg): 17, 18
 
-Bordes inf (si bg): 24 borde izq, 33 centro, 25 borde dcha
-Esquinas (si bg): 31 y 34 izq, 32 y 35 dcha
+Bordes inf (si bg): 24 borde izq, 33 centro, 25 borde dcha (las rotas)
+Esquinas (llevan bg): 31 y 34 izq, 32 y 35 dcha
 
 
 Lista ()
