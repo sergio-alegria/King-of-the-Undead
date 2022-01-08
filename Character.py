@@ -122,24 +122,21 @@ class Character:
         self.died_counter = 1
         self.change_sprite("Dying")
 
-    def AI_move(self, mc_pos, map):
-        print(self.pos.__dict__)
-        print(mc_pos.__dict__)
+    def AI_move(self, character, map):
+        mc_pos = character.pos
         self.is_moving = True
         moves = [common.Dir.stall]
-
-        pos_i, pos_j = self.pos.toMatrixIndex()
-        mc_i, mc_j = mc_pos.toMatrixIndex()
-        
-        if pos_i > mc_i:
-            moves.append(common.Dir.down)
-        elif pos_i < mc_i:
-            moves.append(common.Dir.up)
-        if pos_j < mc_j:
-            moves.append(common.Dir.right)
-        if pos_j > mc_j:
+        if self.pos.x > mc_pos.x:
             moves.append(common.Dir.left)
+        elif self.pos.x < mc_pos.x:
+            moves.append(common.Dir.right)
+        if self.pos.y < mc_pos.y:
+            moves.append(common.Dir.up)
+        if self.pos.y > mc_pos.y:
+            moves.append(common.Dir.down)
         self.move(moves[random.randint(0, len(moves) - 1)], map)
+        
+        return self.image.get_rect(center=self.pos.toTuple()).colliderect(character.weapon.get_rect(character.pos.toTuple(), common.Dir.down))
 
 
     def check_pos(self, map):          

@@ -161,21 +161,22 @@ def draw_characters(map):
         frame_counter = 0
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
     for c in characters[1:]:
-        #c.AI_move(characters[0].pos, map)
-        c.check_pos(map)
-
+        if c.AI_move(characters[0], map):
+            die = characters[0].receive_dmg(c.weapon.dmg)
+            if die:
+                characters.remove(characters[0])
+                print("GAME OVER!!")
+                exit()
         # c.AI_move_a_star(map, characters[0].pos)
         if frame_counter >= FRAMES_PER_IMAGE:
             c.update()
             frame_counter = 0
-        screen.blit(c.image, (c.pos.x - base_x, c.pos.y - base_y))
+        screen.blit(c.image, (c.pos.x, c.pos.y))
 
 
 def atack_enemies_in_range(character, direction):
     for e in characters[1:]:
-        if e.image.get_rect(center=e.pos.toTuple()).colliderect(
-            character.weapon.get_rect(character.pos.toTuple(), direction)
-        ):
+        if e.image.get_rect(center=e.pos.toTuple()).colliderect(character.weapon.get_rect(character.pos.toTuple(), direction)):
             die = e.receive_dmg(character.weapon.dmg)
             if die:
                 characters.remove(e)
@@ -213,9 +214,9 @@ def main():
         )
     )
     characters.append(Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]))
-    #characters.append(Character(2,3, [5*TILE_SIZE,6*TILE_SIZE], mobs_animations["Wizard"]))
-    #characters.append(Character(3,4, [7*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
-    #characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
+    characters.append(Character(2,3, [5*TILE_SIZE,6*TILE_SIZE], mobs_animations["Wizard"]))
+    characters.append(Character(3,4, [7*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
+    characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
 
     # Display variables
     scroll_left = False
@@ -230,13 +231,13 @@ def main():
 
         prev_pos: Point = characters[0].pos
         # movement management
-        if scroll_left is True and base_x > 0:
+        if scroll_left is True:
             characters[0].move(common.Dir.left, map)
-        if scroll_right is True and base_x < common.MAX_COLS * TILE_SIZE:
+        if scroll_right is True:
             characters[0].move(common.Dir.right, map)
-        if scroll_up is True and base_y > 0:
+        if scroll_up is True:
             characters[0].move(common.Dir.down, map)
-        if scroll_down is True and base_y < common.DISPLAY_ROWS * TILE_SIZE:
+        if scroll_down is True:
             characters[0].move(common.Dir.up, map)
         # Dont move if nor accesible
         if map.getTile(characters[0].pos) not in common.FLOOR:

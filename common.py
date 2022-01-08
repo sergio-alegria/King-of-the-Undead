@@ -6,7 +6,7 @@ from numpy import common_type, tile
 DISPLAY_ROWS = 20
 DISPLAY_COLS = 20
 
-TILE_SIZE = 32
+TILE_SIZE = 45
 
 TILE_TYPES = 45
 
@@ -14,7 +14,7 @@ ROWS = 20
 MAX_COLS = 50
 
 # Game variables
-speed = 1
+speed = 1.4
 
 # Key = backforund image, values = tile that need that bg
 NEED_BAKGROUND = {
@@ -36,7 +36,7 @@ class Point:
     def __init__(self, x: int = None, y: int = None):
         self.x = x
         self.y = y
-        self.factor = int(TILE_SIZE/2)
+        self.factor = int(TILE_SIZE)
         self.i = int(self.y/self.factor)
         self.j = int(self.x/self.factor)
 
