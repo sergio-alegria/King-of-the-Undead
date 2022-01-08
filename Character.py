@@ -70,7 +70,6 @@ class Character:
         
         # Copy pos
         new_pos = deepcopy(self.pos)
-        print(self.pos.__dict__)
         self.is_moving = True
         if dir == common.Dir.up:
             new_pos.update_y(common.speed)
@@ -132,7 +131,6 @@ class Character:
             moves.append(common.Dir.up)
         if self.pos.y > mc_pos.y:
             moves.append(common.Dir.down)
-        # print(f"{self.id}\nenemy(x,y)=({self.pos.x},{self.pos.y})\nmain_char(x,y)=({mc_pos.x},{mc_pos.y})\n{moves = }")
         self.move(moves[random.randint(0, len(moves) - 1)], map)
 
     def AI_move_a_star(self, map, pos: Point):

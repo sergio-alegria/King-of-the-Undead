@@ -188,7 +188,7 @@ def main():
     global base_x, base_y
     attack = False
     run = True
-    map = Map(0)
+    map = Map(1)
     draw_map(map=map)
 
     """Character(
@@ -211,10 +211,10 @@ def main():
             main_character_animations,
         )
     )
-    #characters.append(Character(1, 10, [10 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]))
-    #characters.append(Character(2,3, [15*TILE_SIZE,7*TILE_SIZE], mobs_animations["Wizard"]))
-    #characters.append(Character(3,4, [20*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
-    #characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
+    characters.append(Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]))
+    characters.append(Character(2,3, [5*TILE_SIZE,6*TILE_SIZE], mobs_animations["Wizard"]))
+    characters.append(Character(3,4, [7*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
+    characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
 
     # Display variables
     scroll_left = False
