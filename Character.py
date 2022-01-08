@@ -123,6 +123,8 @@ class Character:
         self.change_sprite("Dying")
 
     def AI_move(self, mc_pos, map):
+        print(self.pos.__dict__)
+        print(mc_pos.__dict__)
         self.is_moving = True
         moves = [common.Dir.stall]
 
