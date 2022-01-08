@@ -121,6 +121,8 @@ class Character:
         self.change_sprite("Dying")
 
     def AI_move(self, mc_pos, map):
+        print(self.pos.__dict__)
+        print(mc_pos.__dict__)
         self.is_moving = True
         moves = [common.Dir.stall]
         if self.pos.x > mc_pos.x:
@@ -128,9 +130,10 @@ class Character:
         elif self.pos.x < mc_pos.x:
             moves.append(common.Dir.right)
         if self.pos.y < mc_pos.y:
-            moves.append(common.Dir.up)
-        if self.pos.y > mc_pos.y:
             moves.append(common.Dir.down)
+        if self.pos.y > mc_pos.y:
+            moves.append(common.Dir.up)
+        print(moves)
         self.move(moves[random.randint(0, len(moves) - 1)], map)
 
     def AI_move_a_star(self, map, pos: Point):

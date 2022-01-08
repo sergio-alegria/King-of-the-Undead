@@ -157,17 +157,15 @@ def draw_characters(map):
     frame_counter += 1
     if frame_counter >= FRAMES_PER_IMAGE:
         characters[0].update()
-        print(characters[0].pos.__dict__)
-        print(map.getTile(characters[0].pos))
         frame_counter = 0
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
-    for c in characters[0:]:
+    for c in characters[1:]:
         c.AI_move(characters[0].pos, map)
         # c.AI_move_a_star(map, characters[0].pos)
         if frame_counter >= FRAMES_PER_IMAGE:
             c.update()
             frame_counter = 0
-        screen.blit(c.image, (c.pos.x, c.pos.y))
+        screen.blit(c.image, (c.pos.x - base_x, c.pos.y - base_y))
 
 
 def atack_enemies_in_range(character, direction):
@@ -212,9 +210,9 @@ def main():
         )
     )
     characters.append(Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]))
-    characters.append(Character(2,3, [5*TILE_SIZE,6*TILE_SIZE], mobs_animations["Wizard"]))
-    characters.append(Character(3,4, [7*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
-    characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
+    #characters.append(Character(2,3, [5*TILE_SIZE,6*TILE_SIZE], mobs_animations["Wizard"]))
+    #characters.append(Character(3,4, [7*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
+    #characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
 
     # Display variables
     scroll_left = False
