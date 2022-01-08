@@ -42,13 +42,12 @@ class Point:
 
     def update_y(self, value):
         self.y += value
-        self.j =  int(self.x/self.factor)
-        self.j = 0 if self.j < 2 else self.j + 2 
+        self.i =  int(self.y/self.factor)
         
     def update_x(self, value):
         self.x += value
-        self.i =  int(self.y/self.factor)
-        self.i = 0 if self.j < 2 else self.j + 2  
+        self.j =  int(self.x/self.factor) 
+    
     def toTuple(self):
         return (self.x, self.y)
 

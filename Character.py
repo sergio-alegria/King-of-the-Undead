@@ -3,7 +3,8 @@ import common
 import random
 import a_star_matrix
 import numpy
-from common import Point
+from copy import deepcopy
+from common import TILE_SIZE, Point
 
 
 class Weapon:
@@ -66,11 +67,28 @@ class Character:
             pass
         if dir == self.dir:
             return
-
-        prev_pos_point = self.pos
-        prev_pos = self.pos.toTuple()
-
+        
+        # Copy pos
+        new_pos = deepcopy(self.pos)
+        print(self.pos.__dict__)
         self.is_moving = True
+        if dir == common.Dir.up:
+            new_pos.update_y(common.speed)
+        elif dir == common.Dir.down:
+            new_pos.update_y(-common.speed)
+        elif dir == common.Dir.left:
+            new_pos.update_x(-common.speed)
+        elif dir == common.Dir.right:
+            new_pos.update_x(common.speed)
+        elif dir == common.Dir.stall: return 
+        
+        pos_i, pos_j = self.pos.toMatrixIndex()
+        new_pos_i,new_pos_j = new_pos.toMatrixIndex()
+          
+        if not (pos_i == new_pos_i and pos_j == new_pos_j):
+            if not map.getTile(new_pos) in common.FLOOR:
+                return 
+                 
         if dir == common.Dir.up:
             self.pos.update_y(common.speed)
             self.change_sprite("Down_walk_S")
@@ -83,11 +101,7 @@ class Character:
         elif dir == common.Dir.right:
             self.pos.update_x(common.speed)
             self.change_sprite("Rside_walk_S")
-        elif dir == common.Dir.stall:
-            self.change_sprite("Stall")
-        if map.getTile(self.pos) not in common.FLOOR:
-            self.pos = Point(*prev_pos)
-
+                
     def receive_dmg(self, dmg) -> bool:
         self.hp -= dmg
         if self.hp <= 0:
