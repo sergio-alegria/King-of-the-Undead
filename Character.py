@@ -88,6 +88,8 @@ class Character:
             if not map.getTile(new_pos) in common.FLOOR:
                 return 
                  
+        self.prev_pos = deepcopy(self.pos)
+
         if dir == common.Dir.up:
             self.pos.update_y(common.speed)
             self.change_sprite("Down_walk_S")
@@ -123,15 +125,26 @@ class Character:
     def AI_move(self, mc_pos, map):
         self.is_moving = True
         moves = [common.Dir.stall]
-        if self.pos.x > mc_pos.x:
-            moves.append(common.Dir.left)
-        elif self.pos.x < mc_pos.x:
-            moves.append(common.Dir.right)
-        if self.pos.y < mc_pos.y:
-            moves.append(common.Dir.up)
-        if self.pos.y > mc_pos.y:
+
+        pos_i, pos_j = self.pos.toMatrixIndex()
+        mc_i, mc_j = mc_pos.toMatrixIndex()
+        
+        if pos_i > mc_i:
             moves.append(common.Dir.down)
+        elif pos_i < mc_i:
+            moves.append(common.Dir.up)
+        if pos_j < mc_j:
+            moves.append(common.Dir.right)
+        if pos_j > mc_j:
+            moves.append(common.Dir.left)
         self.move(moves[random.randint(0, len(moves) - 1)], map)
+
+
+    def check_pos(self, map):          
+        if not map.getTile(self.pos) in common.FLOOR:
+            print("Fuera")
+            return
+
 
     def AI_move_a_star(self, map, pos: Point):
         self.is_moving = True

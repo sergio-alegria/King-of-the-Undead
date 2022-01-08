@@ -145,9 +145,10 @@ def draw_map(map, x=0, y=0):
             if tile >= 0:
                 for key, list in common.NEED_BAKGROUND.items():
                     if tile in list:
-                        screen.blit(img_list[key],(i * TILE_SIZE - base_x, j * TILE_SIZE - base_y))
-                screen.blit(img_list[tile], (i * TILE_SIZE - base_x, j * TILE_SIZE - base_y))
-
+                        #screen.blit(img_list[key],(i * TILE_SIZE - base_x, j * TILE_SIZE - base_y))
+                        screen.blit(img_list[key],(i * TILE_SIZE, j * TILE_SIZE))
+                #screen.blit(img_list[tile], (i * TILE_SIZE - base_x, j * TILE_SIZE - base_y))
+                screen.blit(img_list[tile], (i * TILE_SIZE, j * TILE_SIZE))
 
 FRAMES_PER_IMAGE = 5
 frame_counter = 0
@@ -161,8 +162,10 @@ def draw_characters(map):
         print(map.getTile(characters[0].pos))
         frame_counter = 0
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
-    for c in characters[0:]:
-        c.AI_move(characters[0].pos, map)
+    for c in characters[1:]:
+        #c.AI_move(characters[0].pos, map)
+        c.check_pos(map)
+
         # c.AI_move_a_star(map, characters[0].pos)
         if frame_counter >= FRAMES_PER_IMAGE:
             c.update()

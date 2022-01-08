@@ -3,10 +3,10 @@ from enum import Enum
 from numpy import common_type, tile
 
 # Map variables
-DISPLAY_ROWS = 13
-DISPLAY_COLS = 13
+DISPLAY_ROWS = 20
+DISPLAY_COLS = 20
 
-TILE_SIZE = 45
+TILE_SIZE = 32
 
 TILE_TYPES = 45
 
@@ -37,8 +37,8 @@ class Point:
         self.x = x
         self.y = y
         self.factor = int(TILE_SIZE/2)
-        self.i = int(self.x/self.factor)
-        self.j = int(self.y/self.factor)
+        self.i = int(self.y/self.factor)
+        self.j = int(self.x/self.factor)
 
     def update_y(self, value):
         self.y += value
