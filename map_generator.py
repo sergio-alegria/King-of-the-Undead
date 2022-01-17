@@ -80,10 +80,10 @@ def draw_bg():
 #draw grid
 def draw_grid():
 	#vertical lines
-	for c in range(MAX_COLS + 1):
+	for c in range(common.MAX_COLS + 1):
 		pygame.draw.line(screen, WHITE, (c * TILE_SIZE - scroll, 0), (c * TILE_SIZE - scroll, SCREEN_HEIGHT))
 	#horizontal lines
-	for c in range(ROWS + 1):
+	for c in range(common.ROWS + 1):
 		pygame.draw.line(screen, WHITE, (0, c * TILE_SIZE), (SCREEN_WIDTH, c * TILE_SIZE))
 
 
