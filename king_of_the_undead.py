@@ -128,6 +128,12 @@ save_img = pygame.image.load("resources/Icons/save_btn.png").convert_alpha()
 load_img = pygame.image.load("resources/Icons/load_btn.png").convert_alpha()
 
 
+mobs_map : dict[int, list[Character]]= {1:[
+                                            Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]),
+                                            Character(2, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"])],
+                                        2:[
+                                            
+                                        ]}
 # create function for drawing background
 def draw_bg():
     screen.fill(PURPLE)

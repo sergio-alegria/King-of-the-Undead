@@ -26,12 +26,7 @@ NEED_BAKGROUND = {
 
 FLOOR = [0,1,2,3,4,39]
 DOOR_LIST = []
-mobs_map : dict[int, list[Character]]= {1:[
-                                            Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]),
-                                            Character(2, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"])],
-                                        2:[
-                                            
-                                        ]}
+
 class Dir(Enum):
     up = 0
     down = 1
@@ -74,5 +69,4 @@ class DoorLink:
         self.door2 = door2
         
 
-link.append(DoorLink(Door(2,2,1), Door(3,3,2)))
-Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"])
+DOOR_LIST.append(DoorLink(Door(2,2,1), Door(3,3,2)))
