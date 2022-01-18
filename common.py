@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from numpy import common_type, tile
+from numpy import character, common_type, tile
+
+from Character import Character
 
 # Map variables
 DISPLAY_ROWS = 20
@@ -24,7 +26,12 @@ NEED_BAKGROUND = {
 
 FLOOR = [0,1,2,3,4,39]
 DOOR_LIST = []
-
+mobs_map : dict[int, list[Character]]= {1:[
+                                            Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]),
+                                            Character(2, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"])],
+                                        2:[
+                                            
+                                        ]}
 class Dir(Enum):
     up = 0
     down = 1
@@ -68,3 +75,4 @@ class DoorLink:
         
 
 link.append(DoorLink(Door(2,2,1), Door(3,3,2)))
+Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"])
