@@ -202,21 +202,11 @@ def main():
             ],
             main_character_animations,
         )"""
-    characters.append(
-        Character(
-            0,
-            10,
-            [
-                2 * TILE_SIZE/2,
-                2 * TILE_SIZE/2,
-            ],
-            main_character_animations,
-        )
-    )
-    characters.append(Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]))
-    characters.append(Character(2,3, [5*TILE_SIZE,6*TILE_SIZE], mobs_animations["Wizard"]))
-    characters.append(Character(3,4, [7*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
-    characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
+    characters.append(Character( 0, 10, [5 * TILE_SIZE/2, 5 * TILE_SIZE/2,],main_character_animations,))
+    #characters.append(Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]))
+    #characters.append(Character(2,3, [5*TILE_SIZE,6*TILE_SIZE], mobs_animations["Wizard"]))
+    #characters.append(Character(3,4, [7*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
+    #characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_awnimations["Goblin"]))
 
     # Display variables
     scroll_left = False
@@ -269,12 +259,13 @@ def main():
                 if event.key == pygame.K_d:
                     scroll_right = True
                 if event.key == pygame.K_SPACE:
+                    characters[0].is_moving = True
                     attack = True
 
             if event.type == pygame.KEYUP:
                 characters[0].is_moving = False
                 characters[0].img_index = 0
-                characters[0].sprite_key = "Stall"
+                #characters[0].sprite_key = "Stall" 
                 if event.key == pygame.K_w:
                     scroll_up = False
                 if event.key == pygame.K_s:
@@ -284,6 +275,9 @@ def main():
                 if event.key == pygame.K_d:
                     scroll_right = False
                 if event.key == pygame.K_SPACE:
+                    print("Space up -> ",characters[0].sprite_key)
+                    dir = characters[0].sprite_key.split('_')[0]
+                    characters[0].sprite_key = f'{dir}_walk_S'
                     attack = False
 
         # print(f'{base_x = }\t{base_y = }')
