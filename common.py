@@ -3,7 +3,7 @@ from enum import Enum
 
 from numpy import character, common_type, tile
 
-from Character import Character
+
 
 # Map variables
 DISPLAY_ROWS = 20
@@ -69,4 +69,4 @@ class DoorLink:
         self.door2 = door2
         
 
-DOOR_LIST.append(DoorLink(Door(2,2,1), Door(3,3,2)))
+DOOR_LIST.append(DoorLink(Door(3,9,0), Door(19,8,2)))
