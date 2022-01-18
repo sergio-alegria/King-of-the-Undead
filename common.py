@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from enum import Enum
 
 from numpy import common_type, tile
@@ -22,7 +23,7 @@ NEED_BAKGROUND = {
 }
 
 FLOOR = [0,1,2,3,4,39]
-
+DOOR_LIST = []
 
 class Dir(Enum):
     up = 0
@@ -53,3 +54,17 @@ class Point:
 
     def toMatrixIndex(self):
         return self.i, self.j
+    
+class Door:
+    def __init__(self, i : int, j : int, map_id : int):
+        self.i = i
+        self.j = j
+        self.map_id = map_id
+        
+class DoorLink:
+    def __init__(self, door1 : Door, door2 : Door):
+        self.door1 = door1
+        self.door2 = door2
+        
+
+link.append(DoorLink(Door(2,2,1), Door(3,3,2)))
