@@ -19,9 +19,7 @@ pygame.display.set_caption('Level Editor')
 
 
 #define game variables
-ROWS = 20
-MAX_COLS = 50
-TILE_SIZE = SCREEN_HEIGHT // ROWS
+TILE_SIZE = SCREEN_HEIGHT // common.ROWS
 
 level = 0
 current_tile = 0
@@ -53,13 +51,13 @@ font = pygame.font.SysFont('Futura', 24)
 
 #create empty tile list
 world_data = []
-for row in range(ROWS):
-	r = [0] * MAX_COLS
+for row in range(common.ROWS):
+	r = [0] * common.MAX_COLS
 	world_data.append(r)
 
 #create ground
-for tile in range(0, MAX_COLS):
-	world_data[ROWS - 1][tile] = 0
+for tile in range(0, common.MAX_COLS):
+	world_data[common.ROWS - 1][tile] = 0
 
 
 #function for outputting text onto the screen
@@ -157,7 +155,7 @@ if __name__ == "__main__":
 		#scroll the map
 		if scroll_left == True and scroll > 0:
 			scroll -= 5 * scroll_speed
-		if scroll_right == True and scroll < (MAX_COLS * TILE_SIZE) - SCREEN_WIDTH:
+		if scroll_right == True and scroll < (common.MAX_COLS * TILE_SIZE) - SCREEN_WIDTH:
 			scroll += 5 * scroll_speed
 
 		#add new tiles to the screen

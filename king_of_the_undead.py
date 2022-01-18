@@ -275,7 +275,6 @@ def main():
                 if event.key == pygame.K_d:
                     scroll_right = False
                 if event.key == pygame.K_SPACE:
-                    print("Space up -> ",characters[0].sprite_key)
                     dir = characters[0].sprite_key.split('_')[0]
                     characters[0].sprite_key = f'{dir}_walk_S'
                     attack = False

@@ -4,14 +4,14 @@ from numpy import common_type, tile
 
 # Map variables
 DISPLAY_ROWS = 20
-DISPLAY_COLS = 20
+DISPLAY_COLS = 30
 
-TILE_SIZE = 45
+TILE_SIZE = 40
 
 TILE_TYPES = 45
 
-ROWS = 20
-MAX_COLS = 50
+ROWS = DISPLAY_ROWS
+MAX_COLS = DISPLAY_COLS
 
 # Game variables
 speed = 1.4
