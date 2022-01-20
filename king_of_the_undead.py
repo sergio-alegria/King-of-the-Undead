@@ -129,11 +129,36 @@ load_img = pygame.image.load("resources/Icons/load_btn.png").convert_alpha()
 
 
 mobs_map : dict[int, list[Character]]= {1:[
-                                            Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]),
-                                            Character(2, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"])],
+                                            Character(1, 5, [15 * TILE_SIZE, 3 * TILE_SIZE], mobs_animations["Goblin"]),
+                                            Character(2, 5, [16 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Goblin"]),
+                                            Character(3, 15, [13 * TILE_SIZE, 13 * TILE_SIZE], mobs_animations["Wizard"]),
+                                            Character(4, 5, [14 * TILE_SIZE, 21 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(5, 5, [18 * TILE_SIZE, 25 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(6, 5, [15 * TILE_SIZE, 23 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(7, 5, [4 * TILE_SIZE, 12 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(8, 5, [4 * TILE_SIZE, 17 * TILE_SIZE], mobs_animations["Skeleton"])],
+                                        
                                         2:[
-                                            
-                                        ]}
+                                            Character(9, 5, [8 * TILE_SIZE, 5 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(10, 5, [8 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(12, 5, [8 * TILE_SIZE, 11 * TILE_SIZE], mobs_animations["Skeleton"])],
+                                        
+                                        3:[
+                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])],
+
+                                        4:[
+                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])],
+
+                                        5:[
+                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])],
+                                        }
 # create function for drawing background
 def draw_bg():
     screen.fill(PURPLE)

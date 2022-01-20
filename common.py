@@ -69,4 +69,9 @@ class DoorLink:
         self.door2 = door2
         
 
-DOOR_LIST.append(DoorLink(Door(3,9,0), Door(19,8,2)))
+DOOR_LIST.append(DoorLink(Door(11,6,0), Door(9,6,0)))   # Level_0 cell door
+DOOR_LIST.append(DoorLink(Door(3,9,0), Door(19,8,2)))   # Level_0 door1 to Level_2
+DOOR_LIST.append(DoorLink(Door(3,23,0), Door(19,5,1)))  # Level_0 door2 to Level_1 door1
+DOOR_LIST.append(DoorLink(Door(1,14,1), Door(19,19,3))) # Level_1 door2 to Level_3 door1
+DOOR_LIST.append(DoorLink(Door(1,26,3), Door(19,22,4))) # Level_3 door2 to Level_4 door1
+DOOR_LIST.append(DoorLink(Door(10,5,4), Door(11,5,5)))  # Level_4 door2 to Level_5 door1
