@@ -24,8 +24,7 @@ NEED_BAKGROUND = {
     0: [15, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 38]
 }
 
-FLOOR = [0,1,2,3,4,39]
-DOOR_LIST = []
+FLOOR = [0,1,2,3,4,39,13,14,20,21,17,18]
 
 class Dir(Enum):
     up = 0
@@ -63,10 +62,19 @@ class Door:
         self.j = j
         self.map_id = map_id
         
+    def equals(self, i, j):
+        return self.i == j and self.j == i
+    
+    def toPoint(self) -> Point:
+        return Point(self.i*TILE_SIZE, self.j*TILE_SIZE)
+        
 class DoorLink:
     def __init__(self, door1 : Door, door2 : Door):
-        self.door1 = door1
-        self.door2 = door2
+        self.door1 : Door = door1
+        self.door2 : Door = door2
+    
+    def doors(self):
+        return self.door1, self.door2
         
-
-DOOR_LIST.append(DoorLink(Door(3,9,0), Door(19,8,2)))
+DOOR_LIST : list[DoorLink] = []
+DOOR_LIST.append(DoorLink(Door(9,3,0), Door(7,19,2)))

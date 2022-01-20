@@ -11,7 +11,23 @@ class Map:
         self.level = level
         self.grid = []
         self.load_from_csv()
+        self.doors : list[common.DoorLink] = [] # List with door links that involve this map
+        for door_link in common.DOOR_LIST:
+            if door_link.door1.map_id == level or door_link.door2.map_id == level:
+                self.doors.append(door_link)
 
+    def check_door(self, i, j) -> common.Door:
+        """
+            Checks whether a i,j block is a a door and what level is it linked to (-1 on error or no link)
+        """
+        for link in self.doors:
+            d1, d2 = link.doors()
+            if d1.equals(i,j):
+                return d2
+            if d2.equals(i,j):
+                return d1  
+        return None
+    
     def load_from_csv(self):
         path = Path("levels")
         path = path / f"level{self.level}_data.csv"

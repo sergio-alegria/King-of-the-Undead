@@ -31,7 +31,7 @@ class Character:
         """
         self.id = id
         self.hp = hp
-        self.pos = Point(pos[0], pos[1])
+        self.pos = self.pos = pos if isinstance(pos, Point) else Point(pos[0], pos[1])
         self.weapon = Weapon(0.5, 20)
         self.attacking_frames = 0
         self.attacking_counter = 0
@@ -62,7 +62,10 @@ class Character:
             return  # If attacking dont change
         self.sprite_key = sprite_key
 
-    def move(self, dir, map) -> None:
+    def move(self, dir, map) -> bool:
+        """
+            Returns if changed tile
+        """
         if self.attacking_frames:
             pass
         if dir == self.dir:
@@ -86,7 +89,7 @@ class Character:
           
         if not (pos_i == new_pos_i and pos_j == new_pos_j):
             if not map.getTile(new_pos) in common.FLOOR:
-                return 
+                return False
                  
         self.prev_pos = deepcopy(self.pos)
 
@@ -102,6 +105,8 @@ class Character:
         elif dir == common.Dir.right:
             self.pos.update_x(common.speed)
             self.change_sprite("Rside_walk_S")
+        
+        return not (pos_i == new_pos_i and pos_j == new_pos_j)
                 
     def receive_dmg(self, dmg) -> bool:
         self.hp -= dmg
