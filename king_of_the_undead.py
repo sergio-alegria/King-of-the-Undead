@@ -4,6 +4,7 @@
     Sergio Alegria: sergiioalegriia@gmail.com
 """
 
+from os import remove
 import pygame
 from pygame.constants import TEXTEDITING
 from Map import Map
@@ -132,12 +133,45 @@ save_img = pygame.image.load("resources/Icons/save_btn.png").convert_alpha()
 load_img = pygame.image.load("resources/Icons/load_btn.png").convert_alpha()
 
 
-mobs_map : dict[int, list[Character]]= {1:[
-                                            Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]),
-                                            Character(2, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"])],
-                                        2:[
-                                            
-                                        ]}
+mobs_map : dict[int, list[Character]]= {
+    0 : [], 
+    1:[
+        Character(1, 5, [3 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(2, 5, [7 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(3, 15, [13 * TILE_SIZE, 13 * TILE_SIZE], mobs_animations["Wizard"]),
+        Character(4, 5, [21 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(5, 5, [25 * TILE_SIZE, 18 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(6, 5, [23 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(7, 5, [12 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(8, 5, [17 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"])
+    ],
+
+    2:[
+        Character(9, 5, [5 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(10, 5, [7 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [9 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(12, 5, [11 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"])
+    ],
+    
+    3:[
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])
+    ],
+
+    4:[
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])
+    ],
+
+    5:[
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])
+    ],
+}
+
 # create function for drawing background
 def draw_bg():
     screen.fill(PURPLE)
@@ -197,23 +231,12 @@ base_y = 0
 
 
 def main():
-    global base_x, base_y
+    global base_x, base_y, characters
     attack = False
     run = True
     map = Map(0)
+    characters.append(Character(0, 200, [10 * TILE_SIZE, 8 * TILE_SIZE,],main_character_animations,))
     draw_map(map=map)
-
-    """Character(
-            0,
-            10,
-            [
-                common.DISPLAY_COLS // 2 * TILE_SIZE,
-                common.DISPLAY_ROWS // 2 * TILE_SIZE,
-            ],
-            main_character_animations,
-        )"""
-    #characters.append(Character(0, 10, [3 * TILE_SIZE, 15 * TILE_SIZE,],main_character_animations,))
-    characters.append(Character(0, 10, [10 * TILE_SIZE, 8 * TILE_SIZE,],main_character_animations,))
     
     # Display variables
     scroll_left = False
@@ -250,9 +273,11 @@ def main():
         if door and not block_doors:
             block_doors = 1
             # Change map
-            for c in characters: characters.remove(c)
-            characters.append(Character(0, 10, door.toPoint() ,main_character_animations,))
+            characters[0].pos = door.toPoint()
+            for c in characters[1:]: characters.remove(c)
             map = Map(door.map_id)
+            for c in mobs_map[door.map_id]: characters.append(c)
+            print(characters[0].pos.__dict__)
             
         # Dont move if nor accesible
         if map.getTile(characters[0].pos) not in common.FLOOR:
