@@ -4,12 +4,20 @@
     Sergio Alegria: sergiioalegriia@gmail.com
 """
 
+from os import remove
 import pygame
 from pygame.constants import TEXTEDITING
 from Map import Map
 import common
 from Character import Character, Point
 
+pygame.init()
+
+clock = pygame.time.Clock()
+FPS = 60
+
+
+BLOCK_DOORS_THREASHOLD = FPS*2
 
 # define colours
 GREEN = (144, 201, 120)
@@ -18,10 +26,7 @@ RED = (200, 25, 25)
 PURPLE = (150, 150, 200)
 BLACK = (0, 0, 0)
 
-pygame.init()
 
-clock = pygame.time.Clock()
-FPS = 60
 
 TILE_SIZE = common.TILE_SIZE
 
@@ -115,7 +120,7 @@ for key, mob_dict in mobs_animations.items():
                 f"resources/Sprites_mobs/{key}/{type}/{type}-{i+1}.png"
             ).convert_alpha()
             img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
-            mobs_animations[key][type].append(img)
+            mobs_animations[key][type].append(img) 
 
 
 # store tiles in a list
@@ -128,37 +133,45 @@ save_img = pygame.image.load("resources/Icons/save_btn.png").convert_alpha()
 load_img = pygame.image.load("resources/Icons/load_btn.png").convert_alpha()
 
 
-mobs_map : dict[int, list[Character]]= {1:[
-                                            Character(1, 5, [15 * TILE_SIZE, 3 * TILE_SIZE], mobs_animations["Goblin"]),
-                                            Character(2, 5, [16 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Goblin"]),
-                                            Character(3, 15, [13 * TILE_SIZE, 13 * TILE_SIZE], mobs_animations["Wizard"]),
-                                            Character(4, 5, [14 * TILE_SIZE, 21 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(5, 5, [18 * TILE_SIZE, 25 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(6, 5, [15 * TILE_SIZE, 23 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(7, 5, [4 * TILE_SIZE, 12 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(8, 5, [4 * TILE_SIZE, 17 * TILE_SIZE], mobs_animations["Skeleton"])],
-                                        
-                                        2:[
-                                            Character(9, 5, [8 * TILE_SIZE, 5 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(10, 5, [8 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(12, 5, [8 * TILE_SIZE, 11 * TILE_SIZE], mobs_animations["Skeleton"])],
-                                        
-                                        3:[
-                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])],
+mobs_map : dict[int, list[Character]]= {
+    0 : [], 
+    1:[
+        Character(1, 5, [3 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(2, 5, [7 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(3, 15, [13 * TILE_SIZE, 13 * TILE_SIZE], mobs_animations["Wizard"]),
+        Character(4, 5, [21 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(5, 5, [25 * TILE_SIZE, 18 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(6, 5, [23 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(7, 5, [12 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(8, 5, [17 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"])
+    ],
 
-                                        4:[
-                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])],
+    2:[
+        Character(9, 5, [5 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(10, 5, [7 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [9 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(12, 5, [11 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"])
+    ],
+    
+    3:[
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])
+    ],
 
-                                        5:[
-                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-                                            Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])],
-                                        }
+    4:[
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])
+    ],
+
+    5:[
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])
+    ],
+}
+
 # create function for drawing background
 def draw_bg():
     screen.fill(PURPLE)
@@ -218,53 +231,61 @@ base_y = 0
 
 
 def main():
-    global base_x, base_y
+    global base_x, base_y, characters
     attack = False
     run = True
-    map = Map(1)
+    map = Map(0)
+    characters.append(Character(0, 200, [10 * TILE_SIZE, 8 * TILE_SIZE,],main_character_animations,))
     draw_map(map=map)
-
-    """Character(
-            0,
-            10,
-            [
-                common.DISPLAY_COLS // 2 * TILE_SIZE,
-                common.DISPLAY_ROWS // 2 * TILE_SIZE,
-            ],
-            main_character_animations,
-        )"""
-    characters.append(Character( 0, 10, [5 * TILE_SIZE/2, 5 * TILE_SIZE/2,],main_character_animations,))
-    characters.append(Character(1, 10, [4 * TILE_SIZE, 2 * TILE_SIZE], mobs_animations["Ghost"]))
-    characters.append(Character(2,3, [5*TILE_SIZE,6*TILE_SIZE], mobs_animations["Wizard"]))
-    characters.append(Character(3,4, [7*TILE_SIZE,3*TILE_SIZE], mobs_animations["Skeleton"]))
-    characters.append(Character(4,1, [5*TILE_SIZE,8*TILE_SIZE], mobs_animations["Goblin"]))
-
+    
     # Display variables
     scroll_left = False
     scroll_right = False
     scroll_up = False
     scroll_down = False
+    block_doors = 0
     while run:
         clock.tick(FPS)
         # draw_bg()
         base_x = characters[0].pos.x
         base_y = characters[0].pos.y
 
+        changed = False
+        
         prev_pos: Point = characters[0].pos
         # movement management
         if scroll_left is True:
-            characters[0].move(common.Dir.left, map)
+            changed = characters[0].move(common.Dir.left, map)
         if scroll_right is True:
-            characters[0].move(common.Dir.right, map)
+            changed = characters[0].move(common.Dir.right, map)
         if scroll_up is True:
-            characters[0].move(common.Dir.down, map)
+            changed = characters[0].move(common.Dir.down, map)
         if scroll_down is True:
-            characters[0].move(common.Dir.up, map)
+            changed = characters[0].move(common.Dir.up, map)
+         
+        if block_doors: 
+            block_doors += 2
+        if block_doors > BLOCK_DOORS_THREASHOLD:
+            block_doors = 0
+            
+        # Check if door
+        door : common.Door = map.check_door(*characters[0].pos.toMatrixIndex())
+        if door and not block_doors:
+            block_doors = 1
+            # Change map
+            characters[0].pos = door.toPoint()
+            for c in characters[1:]: characters.remove(c)
+            map = Map(door.map_id)
+            for c in mobs_map[door.map_id]: characters.append(c)
+            print(characters[0].pos.__dict__)
+            
         # Dont move if nor accesible
         if map.getTile(characters[0].pos) not in common.FLOOR:
             characters[0].pos = prev_pos
         if not (scroll_down or scroll_right or scroll_left or scroll_up):
             characters[0].move(common.Dir.stall, map)
+        
+        
 
         # Draw the map
         screen.fill(BLACK)
@@ -272,6 +293,7 @@ def main():
         draw_characters(map)
 
         if attack:
+            characters[0].is_moving = True
             dir = characters[0].attack()
             atack_enemies_in_range(characters[0], dir)
 
@@ -281,6 +303,7 @@ def main():
                 run = False
             # keyboard presses
             if event.type == pygame.KEYDOWN:
+                characters[0].is_moving = True
                 if event.key == pygame.K_w:
                     scroll_up = True
                 if event.key == pygame.K_s:
@@ -290,7 +313,6 @@ def main():
                 if event.key == pygame.K_d:
                     scroll_right = True
                 if event.key == pygame.K_SPACE:
-                    characters[0].is_moving = True
                     attack = True
 
             if event.type == pygame.KEYUP:
