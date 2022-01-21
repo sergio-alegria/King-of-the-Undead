@@ -132,43 +132,75 @@ for i, _ in enumerate(img_list): print(i)
 save_img = pygame.image.load("resources/Icons/save_btn.png").convert_alpha()
 load_img = pygame.image.load("resources/Icons/load_btn.png").convert_alpha()
 
-
+# Columna, fila
 mobs_map : dict[int, list[Character]]= {
     0 : [], 
     1:[
-        Character(1, 5, [3 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
-        Character(2, 5, [7 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Goblin"]),
-        Character(3, 15, [13 * TILE_SIZE, 13 * TILE_SIZE], mobs_animations["Wizard"]),
-        Character(4, 5, [21 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(5, 5, [25 * TILE_SIZE, 18 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(6, 5, [23 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(7, 5, [12 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(8, 5, [17 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"])
+        Character(1, common.HP_GOBLIN, [3 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(2, common.HP_GOBLIN, [7 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(3, common.HP_WIZARD, [13 * TILE_SIZE, 13 * TILE_SIZE], mobs_animations["Wizard"]),
+        Character(4, common.HP_SKELETON, [21 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(5, common.HP_SKELETON, [25 * TILE_SIZE, 18 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(6, common.HP_SKELETON, [23 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(7, common.HP_SKELETON, [12 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(8, common.HP_SKELETON, [17 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"])
     ],
 
     2:[
-        Character(9, 5, [5 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(10, 5, [7 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(11, 5, [9 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(12, 5, [11 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"])
+        Character(9, common.HP_SKELETON, [5 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(10, common.HP_SKELETON, [7 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(11, common.HP_SKELETON, [9 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(12, common.HP_SKELETON, [11 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"])
     ],
     
     3:[
-        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])
+        Character(13, common.HP_GOBLIN, [26 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(14, common.HP_GOBLIN, [23 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(15, common.HP_GOBLIN, [18 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(15, common.HP_WIZARD, [6 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Wizard"]),
+        Character(15, common.HP_GHOST, [7 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Ghost"]),
+        Character(15, common.HP_GHOST, [5 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Ghost"]),
+        Character(16, common.HP_SKELETON, [3 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(17, common.HP_SKELETON, [3 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(18, common.HP_SKELETON, [5 * TILE_SIZE, 6 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(19, common.HP_SKELETON, [7 * TILE_SIZE, 6 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(20, common.HP_SKELETON, [9 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(21, common.HP_SKELETON, [9 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(22, common.HP_SKELETON, [26 * TILE_SIZE, 3 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(23, common.HP_SKELETON, [24 * TILE_SIZE, 3 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(24, common.HP_SKELETON, [22 * TILE_SIZE, 3 * TILE_SIZE], mobs_animations["Skeleton"])
+
     ],
 
     4:[
-        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])
+        Character(25, common.HP_GOBLIN, [25 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(26, common.HP_GOBLIN, [24 * TILE_SIZE, 13 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(27, common.HP_GOBLIN, [22 * TILE_SIZE, 12 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(28, common.HP_GOBLIN, [22 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(29, common.HP_GOBLIN, [19 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(30, common.HP_GOBLIN, [19 * TILE_SIZE, 11 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(31, common.HP_GOBLIN, [17 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(32, common.HP_GOBLIN, [16 * TILE_SIZE, 12 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(33, common.HP_WIZARD, [6 * TILE_SIZE, 5 * TILE_SIZE], mobs_animations["Wizard"]),
+        Character(34, common.HP_GHOST, [5 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Ghost"]),
+        Character(35, common.HP_GHOST, [7 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Ghost"]),
+        Character(36, common.HP_GHOST, [6 * TILE_SIZE, 3 * TILE_SIZE], mobs_animations["Ghost"]),
+        Character(37, common.HP_SKELETON, [3 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(38, common.HP_SKELETON, [2 * TILE_SIZE, 5 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(39, common.HP_SKELETON, [3 * TILE_SIZE, 6 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(40, common.HP_SKELETON, [10 * TILE_SIZE, 5 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(41, common.HP_SKELETON, [9 * TILE_SIZE, 6 * TILE_SIZE], mobs_animations["Skeleton"]),
+        Character(42, common.HP_SKELETON, [9 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"])
     ],
 
     5:[
-        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-        Character(11, 5, [8 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"])
+        Character(43, common.HP_GOBLIN, [2 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(44, common.HP_GOBLIN, [3 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(45, common.HP_GOBLIN, [9 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(46, common.HP_GOBLIN, [8 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
+        Character(47, common.HP_WIZARD, [5 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Wizard"]),
+        Character(48, common.HP_WIZARD, [6 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Wizard"])
+
     ],
 }
 
