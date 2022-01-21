@@ -1,8 +1,4 @@
-from dataclasses import dataclass
 from enum import Enum
-
-from numpy import character, common_type, tile
-
 
 
 # Map variables
@@ -88,3 +84,5 @@ DOOR_LIST.append(DoorLink(Door(24,3,0), Door(5,19,1)))  # Level_0 door2 to Level
 DOOR_LIST.append(DoorLink(Door(14,1,1), Door(19,19,3))) # Level_1 door2 to Level_3 door1
 DOOR_LIST.append(DoorLink(Door(26,1,3), Door(22,19,4))) # Level_3 door2 to Level_4 door1
 DOOR_LIST.append(DoorLink(Door(4,10,4), Door(5,11,5)))  # Level_4 door2 to Level_5 door1
+
+SONG = "resources/Music/The_Crypt_Loop.wav" 

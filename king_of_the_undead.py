@@ -4,12 +4,10 @@
     Sergio Alegria: sergiioalegriia@gmail.com
 """
 
-from os import remove
-from numpy import chararray
 import pygame
-from pygame.constants import TEXTEDITING
 from Map import Map
 import common
+from pathlib import Path
 from Character import Character, Point
 
 pygame.init()
@@ -107,9 +105,7 @@ main_character_list = (8, 8, 8, 8, 8, 12, 8, 6, 6, 6, 6, 4, 1)
 
 for i, j in zip(main_character_animations, main_character_list):
     for k in range(j):
-        img = pygame.image.load(
-            f"resources/Sprites_pj/{i}/{i}-{k + 1}.png"
-        ).convert_alpha()
+        img = pygame.image.load(f"resources/Sprites_pj/{i}/{i}-{k + 1}.png").convert_alpha()
         img = pygame.transform.scale(img, (common.TILE_SIZE, common.TILE_SIZE))
         main_character_animations[i].append(img)
 
@@ -237,7 +233,6 @@ def draw_characters(map):
         characters[0].update()
         frame_counter = 0
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
-    screen.blit(, (characters[0].pos.x, characters[0].pos.y))
     for c in characters[1:]:
         if c.AI_move(characters[0], map):
             die = characters[0].receive_dmg(c.weapon.dmg)

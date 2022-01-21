@@ -2,8 +2,10 @@ import pygame
 from pathlib import Path
 import king_of_the_undead
 import map_generator
+import common 
 
 pygame.init()
+pygame.mixer.init()
 
 clock = pygame.time.Clock()
 FPS = 60
@@ -19,7 +21,11 @@ MAIN_MENU_DIR = Path("resources/Frames_menu")
 MAIN_MENU_IMAGES = 6
 MAIN_MENU_CHANGE_FRAME = FPS * 3
 
-def main_menu():
+
+def main_menu():    
+    pygame.mixer.music.load(Path(common.SONG))
+    pygame.mixer.music.play(-1)           # Play the music
+
     run = True
     index = 0
     count = 0

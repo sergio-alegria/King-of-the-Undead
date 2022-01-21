@@ -13,7 +13,7 @@ class Weapon:
         self.range = range
 
     def get_rect(self, pos, direction):
-        if dir == common.Dir.up or dir == common.Dir.down:
+        if direction == common.Dir.up or direction == common.Dir.down:
             return pygame.Rect(pos, (self.range / 2, self.range))
         else:
             return pygame.Rect(pos, (self.range, self.range / 2))
@@ -168,36 +168,3 @@ class Character:
             )
         )
 
-
-"""
-class MainCharacter(Character):
-
-    def __init__(self, id, hp, pos, dir, dmg, sprites):
-        super().__init__(self, id, hp, pos, dir, sprites)
-
-    def die() -> None:
-        #Fin del juego
-        pass
-
-
-class Enemy(Character):
-
-    def __init__(self, id, hp, pos, dir, sprites):
-        super().__init__(self, id, hp, pos, dir, sprites)
-
-    def draw(self) -> None:
-        print(self.x)
-
-    def move(self, dir) -> None:
-        # Seguir al personaje principal
-        pass
-
-
-
-
-
-class Weapon(ABC):
-
-    def __init__(self, dmg):
-        self.dmg = dmg
-"""
