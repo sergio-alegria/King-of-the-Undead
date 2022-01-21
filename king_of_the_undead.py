@@ -5,6 +5,7 @@
 """
 
 from os import remove
+from numpy import chararray
 import pygame
 from pygame.constants import TEXTEDITING
 from Map import Map
@@ -128,7 +129,7 @@ img_list = []
 for x in range(common.TILE_TYPES):
     img = pygame.transform.scale(pygame.image.load(f"resources/Tileset/{x}.png").convert_alpha(), (TILE_SIZE, TILE_SIZE))
     img_list.append(img)
-for i, _ in enumerate(img_list): print(i)
+    
 save_img = pygame.image.load("resources/Icons/save_btn.png").convert_alpha()
 load_img = pygame.image.load("resources/Icons/load_btn.png").convert_alpha()
 
@@ -204,18 +205,20 @@ def draw_characters(map):
         characters[0].update()
         frame_counter = 0
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
+    screen.blit(, (characters[0].pos.x, characters[0].pos.y))
     for c in characters[1:]:
         if c.AI_move(characters[0], map):
             die = characters[0].receive_dmg(c.weapon.dmg)
             if die:
                 characters.remove(characters[0])
                 print("GAME OVER!!")
-                exit()
+                return True
         # c.AI_move_a_star(map, characters[0].pos)
         if frame_counter >= FRAMES_PER_IMAGE:
             c.update()
             frame_counter = 0
         screen.blit(c.image, (c.pos.x, c.pos.y))
+    return False
 
 
 def atack_enemies_in_range(character, direction):
@@ -232,10 +235,13 @@ base_y = 0
 
 def main():
     global base_x, base_y, characters
+    base_x = 0
+    base_y = 0
+    
     attack = False
     run = True
     map = Map(0)
-    characters.append(Character(0, 200, [10 * TILE_SIZE, 8 * TILE_SIZE,],main_character_animations,))
+    characters = [Character(0, 200, [10 * TILE_SIZE, 8 * TILE_SIZE,],main_character_animations,)]
     draw_map(map=map)
     
     # Display variables
@@ -277,7 +283,6 @@ def main():
             for c in characters[1:]: characters.remove(c)
             map = Map(door.map_id)
             for c in mobs_map[door.map_id]: characters.append(c)
-            print(characters[0].pos.__dict__)
             
         # Dont move if nor accesible
         if map.getTile(characters[0].pos) not in common.FLOOR:
@@ -290,7 +295,8 @@ def main():
         # Draw the map
         screen.fill(BLACK)
         draw_map(map=map, x=int(base_x), y=int(base_y))
-        draw_characters(map)
+        is_dead = draw_characters(map)
+        if is_dead: return
 
         if attack:
             characters[0].is_moving = True
@@ -314,6 +320,8 @@ def main():
                     scroll_right = True
                 if event.key == pygame.K_SPACE:
                     attack = True
+                if event.key == pygame.K_ESCAPE:
+                    return 
 
             if event.type == pygame.KEYUP:
                 characters[0].is_moving = False
@@ -331,7 +339,6 @@ def main():
                     characters[0].sprite_key = f'{dir}_walk_S'
                     attack = False
 
-        # print(f'{base_x = }\t{base_y = }')
         pygame.display.update()
 
 

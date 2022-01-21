@@ -31,6 +31,7 @@ class Character:
         """
         self.id = id
         self.hp = hp
+        self.max_hp = hp
         self.pos = self.pos = pos if isinstance(pos, Point) else Point(pos[0], pos[1])
         self.weapon = Weapon(0.5, common.TILE_SIZE)
         self.attacking_frames = 0

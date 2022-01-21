@@ -110,97 +110,95 @@ for i in range(len(img_list)):
 		button_col = 0
 
 
-if __name__ == "__main__":
-	run = True
-	while run:
+def map_generator():
+    global level, current_tile, scroll_left, scroll_right, scroll, scroll_speed
+    run = True
+    while run:
 
-		clock.tick(FPS)
+        clock.tick(FPS)
+        
+        draw_bg()
+        draw_grid()
+        draw_world()
 
-		draw_bg()
-		draw_grid()
-		draw_world()
+        draw_text(f'Level: {level}', font, WHITE, 10, SCREEN_HEIGHT + LOWER_MARGIN - 90)
+        draw_text('Press UP or DOWN to change level', font, WHITE, 10, SCREEN_HEIGHT + LOWER_MARGIN - 60)
 
-		draw_text(f'Level: {level}', font, WHITE, 10, SCREEN_HEIGHT + LOWER_MARGIN - 90)
-		draw_text('Press UP or DOWN to change level', font, WHITE, 10, SCREEN_HEIGHT + LOWER_MARGIN - 60)
+        #save data if clicked
+        if save_button.draw(screen):
+            with open(f'levels/level{level}_data.csv', 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile, delimiter = ',')
+                for row in world_data:
+                    writer.writerow(row)
 
-		#save data if clicked
-		if save_button.draw(screen):
-			with open(f'levels/level{level}_data.csv', 'w', newline='') as csvfile:
-				writer = csv.writer(csvfile, delimiter = ',')
-				for row in world_data:
-					writer.writerow(row)
-		
-		#save data if clicked
-		if load_button.draw(screen):
-			scroll = 0
-			with open(f'levels/level{level}_data.csv', newline='') as csvfile:
-				reader = csv.reader(csvfile, delimiter = ',')
-				for x, row in enumerate(reader):
-					for y, tile in enumerate(row):
-						world_data[x][y] = int(tile)
-					
+        #save data if clicked
+        if load_button.draw(screen):
+            scroll = 0
+            with open(f'levels/level{level}_data.csv', newline='') as csvfile:
+                reader = csv.reader(csvfile, delimiter = ',')
+                for x, row in enumerate(reader):
+                    for y, tile in enumerate(row):
+                        world_data[x][y] = int(tile)
+                    
 
-		#draw tile panel and tiles
-		pygame.draw.rect(screen, PURPLE, (SCREEN_WIDTH, 0, SIDE_MARGIN, SCREEN_HEIGHT))
+        #draw tile panel and tiles
+        pygame.draw.rect(screen, PURPLE, (SCREEN_WIDTH, 0, SIDE_MARGIN, SCREEN_HEIGHT))
 
-		#choose a tile
-		button_count = 0
-		for button_count, i in enumerate(button_list):
-			if i.draw(screen):
-				current_tile = button_count
+        #choose a tile
+        button_count = 0
+        for button_count, i in enumerate(button_list):
+            if i.draw(screen):
+                current_tile = button_count
 
-		#highlight the selected tile
-		pygame.draw.rect(screen, RED, button_list[current_tile].rect, 3)
+        #highlight the selected tile
+        pygame.draw.rect(screen, RED, button_list[current_tile].rect, 3)
 
-		#scroll the map
-		if scroll_left == True and scroll > 0:
-			scroll -= 5 * scroll_speed
-		if scroll_right == True and scroll < (common.MAX_COLS * TILE_SIZE) - SCREEN_WIDTH:
-			scroll += 5 * scroll_speed
+        #scroll the map
+        if scroll_left == True and scroll > 0:
+            scroll -= 5 * scroll_speed
+        if scroll_right == True and scroll < (common.MAX_COLS * TILE_SIZE) - SCREEN_WIDTH:
+            scroll += 5 * scroll_speed
 
-		#add new tiles to the screen
-		#get mouse position
-		pos = pygame.mouse.get_pos()
-		x = (pos[0] + scroll) // TILE_SIZE
-		y = pos[1] // TILE_SIZE
+        #add new tiles to the screen
+        #get mouse position
+        pos = pygame.mouse.get_pos()
+        x = (pos[0] + scroll) // TILE_SIZE
+        y = pos[1] // TILE_SIZE
 
-		#check that the coordinates are within the tile area
-		if pos[0] < SCREEN_WIDTH and pos[1] < SCREEN_HEIGHT:
-			#update tile value
-			if pygame.mouse.get_pressed()[0] == 1:
-				if world_data[y][x] != current_tile:
-					world_data[y][x] = current_tile
-			if pygame.mouse.get_pressed()[2] == 1:
-				world_data[y][x] = -1
-
-
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				run = False
-			#keyboard presses
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_UP:
-					level += 1
-				if event.key == pygame.K_DOWN and level > 0:
-					level -= 1
-				if event.key == pygame.K_LEFT:
-					scroll_left = True
-				if event.key == pygame.K_RIGHT:
-					scroll_right = True
-				if event.key == pygame.K_RSHIFT:
-					scroll_speed = 5
+        #check that the coordinates are within the tile area
+        if pos[0] < SCREEN_WIDTH and pos[1] < SCREEN_HEIGHT:
+            #update tile value
+            if pygame.mouse.get_pressed()[0] == 1:
+                if world_data[y][x] != current_tile:
+                    world_data[y][x] = current_tile
+            if pygame.mouse.get_pressed()[2] == 1:
+                world_data[y][x] = -1
 
 
-			if event.type == pygame.KEYUP:
-				if event.key == pygame.K_LEFT:
-					scroll_left = False
-				if event.key == pygame.K_RIGHT:
-					scroll_right = False
-				if event.key == pygame.K_RSHIFT:
-					scroll_speed = 1
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            #keyboard presses
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    level += 1
+                if event.key == pygame.K_DOWN and level > 0:
+                    level -= 1
+                if event.key == pygame.K_LEFT:
+                    scroll_left = True
+                if event.key == pygame.K_RIGHT:
+                    scroll_right = True
+                if event.key == pygame.K_RSHIFT:
+                    scroll_speed = 5
+                if event.key == pygame.K_ESCAPE:
+                    return 
 
 
-		pygame.display.update()
-
-	pygame.quit()
-
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    scroll_left = False
+                if event.key == pygame.K_RIGHT:
+                    scroll_right = False
+                if event.key == pygame.K_RSHIFT:
+                    scroll_speed = 1
+        pygame.display.update()
