@@ -1,8 +1,6 @@
 import pygame
 import common
 import random
-import a_star_matrix
-import numpy
 from copy import deepcopy
 from common import TILE_SIZE, Point
 

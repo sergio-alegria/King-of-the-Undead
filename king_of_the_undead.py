@@ -158,7 +158,7 @@ def draw_characters(map):
     if frame_counter >= FRAMES_PER_IMAGE:
         characters[0].update()
         frame_counter = 0
-        characters[0].hp += HP_REEGEN
+        characters[0].hp = characters[0].hp+HP_REEGEN if characters[0].hp < characters[0].max_hp else characters[0].max_hp  
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
     for c in characters[1:]:
         if c.AI_move(characters[0], map):

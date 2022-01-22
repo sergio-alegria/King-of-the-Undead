@@ -1,5 +1,5 @@
 from enum import Enum
-
+import json
 
 # Map variables
 DISPLAY_ROWS = 20
@@ -81,13 +81,10 @@ class DoorLink:
         return self.door1, self.door2
         
 DOOR_LIST : "list[DoorLink]" = []
+with open("doors.json", "r") as jsonfile:
+    data = json.load(jsonfile)
+for link in data["LINKS"]:
+    DOOR_LIST.append(DoorLink(Door(link["d1_i"],link["d1_j"], link["d1_map_id"]), Door(link["d2_i"],link["d2_j"], link["d2_map_id"])))  
 
-DOOR_LIST.append(DoorLink(Door(9,3,0), Door(7,19,2)))   # Level_0 door1 to Level_2
-DOOR_LIST.append(DoorLink(Door(10,3,0), Door(8,19,2)))  # Level_0 door1 to Level_2
-DOOR_LIST.append(DoorLink(Door(24,3,0), Door(5,19,1)))  # Level_0 door2 to Level_1 door1
-DOOR_LIST.append(DoorLink(Door(14,1,1), Door(20,19,3))) # Level_1 door2 to Level_3 door1
-DOOR_LIST.append(DoorLink(Door(13,1,1), Door(19,19,3))) # Level_1 door2 to Level_3 door1
-DOOR_LIST.append(DoorLink(Door(26,1,3), Door(22,19,4))) # Level_3 door2 to Level_4 door1
-DOOR_LIST.append(DoorLink(Door(4,10,4), Door(5,11,5)))  # Level_4 door2 to Level_5 door1
 
 SONG = "resources/Music/The_Crypt_Loop.wav" 
