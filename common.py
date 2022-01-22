@@ -80,7 +80,7 @@ class DoorLink:
     def doors(self):
         return self.door1, self.door2
         
-DOOR_LIST : list[DoorLink] = []
+DOOR_LIST : "list[DoorLink]" = []
 
 DOOR_LIST.append(DoorLink(Door(9,3,0), Door(7,19,2)))   # Level_0 door1 to Level_2
 DOOR_LIST.append(DoorLink(Door(24,3,0), Door(5,19,1)))  # Level_0 door2 to Level_1 door1

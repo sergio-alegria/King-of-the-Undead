@@ -40,7 +40,7 @@ screen.fill(WHITE)
 pygame.display.set_caption("King of the Undead")
 
 # stores all the characters
-characters: list[Character] = []
+characters: "list[Character]" = []
 
 # store character images un a list
 main_character_animations = {
@@ -130,7 +130,7 @@ save_img = pygame.image.load("resources/Icons/save_btn.png").convert_alpha()
 load_img = pygame.image.load("resources/Icons/load_btn.png").convert_alpha()
 
 # Columna, fila
-mobs_map : dict[int, list[Character]]= {
+mobs_map : "dict[int, list[Character]]"= {
     0 : [], 
     1:[
         Character(1, common.HP_GOBLIN, [3 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),

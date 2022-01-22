@@ -11,7 +11,7 @@ class Map:
         self.level = level
         self.grid = []
         self.load_from_csv()
-        self.doors : list[common.DoorLink] = [] # List with door links that involve this map
+        self.doors : "list[common.DoorLink]" = [] # List with door links that involve this map
         for door_link in common.DOOR_LIST:
             if door_link.door1.map_id == level or door_link.door2.map_id == level:
                 self.doors.append(door_link)
