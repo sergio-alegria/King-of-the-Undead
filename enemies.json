@@ -1,8 +1,104 @@
 {
-    "0": [
-        {
-            
-        }
-
-    ]
+  "0": [],
+  "1": [
+    {
+      "Type": "Goblin",
+      "i": 3,
+      "j": 15
+    },
+    {
+      "Type": "Goblin",
+      "i": 7,
+      "j": 16
+    },
+    {
+      "Type": "Wizard",
+      "i": 13,
+      "j": 13
+    },
+    {
+      "Type": "Skeleton",
+      "i": 21,
+      "j": 14
+    },
+    {
+      "Type": "Skeleton",
+      "i": 25,
+      "j": 28
+    },
+    {
+      "Type": "Skeleton",
+      "i": 23,
+      "j": 15
+    },
+    {
+      "Type": "Skeleton",
+      "i": 12,
+      "j": 4
+    },
+    {
+      "Type": "Skeleton",
+      "i": 17,
+      "j": 4
+    }
+  ],
+  "2": [
+    {
+      "Type": "Skeleton",
+      "i": 5,
+      "j": 8
+    },
+    {
+      "Type": "Skeleton",
+      "i": 7,
+      "j": 8
+    },
+    {
+      "Type": "Skeleton",
+      "i": 9,
+      "j": 8
+    },
+    {
+      "Type": "Skeleton",
+      "i": 11,
+      "j": 8
+    }
+  ],
+  "3": [
+    {
+      "Type": "Goblin",
+      "i": 5,
+      "j": 8
+    },
+    {
+      "Type": "Goblin",
+      "i": 7,
+      "j": 8
+    },
+    {
+      "Type": "Goblin",
+      "i": 9,
+      "j": 8
+    },
+    {
+      "Type": "Wizard",
+      "i": 6,
+      "j": 8
+    },
+    {
+      "Type": "Ghost",
+      "i": 7,
+      "j": 9
+    },
+    {
+      "Type": "Ghost",
+      "i": 5,
+      "j": 9
+    },
+    {
+      "Type": "Skeleton",
+      "i": 3,
+      "j": 9
+    }
+  ]
 }

@@ -20,10 +20,12 @@ NEED_BAKGROUND = {
     0: [15, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 38]
 }
 
-HP_SKELETON = 15
-HP_GOBLIN = 10
-HP_WIZARD = 35
-HP_GHOST = 25
+ENEMIES_HP = {
+    "Goblin" : 10,
+    "Skeleton" : 15,
+    "Wizard" : 35,
+    "Ghost" : 25
+}
 
 HEALTH_BAR_WIDTH = TILE_SIZE
 HEALTH_BAR_HEIGHT = 5

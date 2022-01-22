@@ -14,6 +14,8 @@ pygame.init()
 clock = pygame.time.Clock()
 FPS = 60
 
+with open("enemies.json") as f:
+    _enemies = json.load(f)
 
 BLOCK_DOORS_THREASHOLD = FPS*2
 
@@ -180,14 +182,25 @@ def draw_characters(map):
     return False
 
 
-def atack_enemies_in_range(character, direction):
+dead_enemies : "dict[int, list[int]]" = {0 : []}
+ 
+def atack_enemies_in_range(character, direction, map_id):
     for e in characters[1:]:
         if e.image.get_rect(center=e.pos.toTuple()).colliderect(character.weapon.get_rect(character.pos.toTuple(), direction)):
             die = e.receive_dmg(character.weapon.dmg)
             if die:
                 characters.remove(e)
+                dead_enemies[map_id].append(e.id)
 
 
+def load_map_enemies(map_id : int):
+    with open("enemies.json", "r") as file:
+        data = json.load(file)
+        
+    for i, c in enumerate(data[str(map_id)]):
+        if i not in dead_enemies[map_id]:
+            characters.append(Character(i, common.ENEMIES_HP[c['Type']],[c['i']*TILE_SIZE, c['j']*TILE_SIZE], mobs_animations[c["Type"]]))
+                        
 base_x = 0
 base_y = 0
 
@@ -197,78 +210,6 @@ def main():
     base_x = 0
     base_y = 0
     
-    # Columna, fila
-    mobs_map : "dict[int, list[Character]]"= {
-        0 : [], 
-        1:[
-            Character(1, common.HP_GOBLIN, [3 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(2, common.HP_GOBLIN, [7 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(3, common.HP_WIZARD, [13 * TILE_SIZE, 13 * TILE_SIZE], mobs_animations["Wizard"]),
-            Character(4, common.HP_SKELETON, [21 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(5, common.HP_SKELETON, [25 * TILE_SIZE, 18 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(6, common.HP_SKELETON, [23 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(7, common.HP_SKELETON, [12 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(8, common.HP_SKELETON, [17 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"])
-        ],
-
-        2:[
-            Character(9, common.HP_SKELETON, [5 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(10, common.HP_SKELETON, [7 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(11, common.HP_SKELETON, [9 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(12, common.HP_SKELETON, [11 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Skeleton"])
-        ],
-        
-        3:[
-            Character(13, common.HP_GOBLIN, [26 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(14, common.HP_GOBLIN, [23 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(15, common.HP_GOBLIN, [18 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(15, common.HP_WIZARD, [6 * TILE_SIZE, 8 * TILE_SIZE], mobs_animations["Wizard"]),
-            Character(15, common.HP_GHOST, [7 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Ghost"]),
-            Character(15, common.HP_GHOST, [5 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Ghost"]),
-            Character(16, common.HP_SKELETON, [3 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(17, common.HP_SKELETON, [3 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(18, common.HP_SKELETON, [5 * TILE_SIZE, 6 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(19, common.HP_SKELETON, [7 * TILE_SIZE, 6 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(20, common.HP_SKELETON, [9 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(21, common.HP_SKELETON, [9 * TILE_SIZE, 9 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(22, common.HP_SKELETON, [26 * TILE_SIZE, 3 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(23, common.HP_SKELETON, [24 * TILE_SIZE, 3 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(24, common.HP_SKELETON, [22 * TILE_SIZE, 3 * TILE_SIZE], mobs_animations["Skeleton"])
-
-        ],
-
-        4:[
-            Character(25, common.HP_GOBLIN, [25 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(26, common.HP_GOBLIN, [24 * TILE_SIZE, 13 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(27, common.HP_GOBLIN, [22 * TILE_SIZE, 12 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(28, common.HP_GOBLIN, [22 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(29, common.HP_GOBLIN, [19 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(30, common.HP_GOBLIN, [19 * TILE_SIZE, 11 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(31, common.HP_GOBLIN, [17 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(32, common.HP_GOBLIN, [16 * TILE_SIZE, 12 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(33, common.HP_WIZARD, [6 * TILE_SIZE, 5 * TILE_SIZE], mobs_animations["Wizard"]),
-            Character(34, common.HP_GHOST, [5 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Ghost"]),
-            Character(35, common.HP_GHOST, [7 * TILE_SIZE, 7 * TILE_SIZE], mobs_animations["Ghost"]),
-            Character(36, common.HP_GHOST, [6 * TILE_SIZE, 3 * TILE_SIZE], mobs_animations["Ghost"]),
-            Character(37, common.HP_SKELETON, [3 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(38, common.HP_SKELETON, [2 * TILE_SIZE, 5 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(39, common.HP_SKELETON, [3 * TILE_SIZE, 6 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(40, common.HP_SKELETON, [10 * TILE_SIZE, 5 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(41, common.HP_SKELETON, [9 * TILE_SIZE, 6 * TILE_SIZE], mobs_animations["Skeleton"]),
-            Character(42, common.HP_SKELETON, [9 * TILE_SIZE, 4 * TILE_SIZE], mobs_animations["Skeleton"])
-        ],
-
-        5:[
-            Character(43, common.HP_GOBLIN, [2 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(44, common.HP_GOBLIN, [3 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(45, common.HP_GOBLIN, [9 * TILE_SIZE, 14 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(46, common.HP_GOBLIN, [8 * TILE_SIZE, 15 * TILE_SIZE], mobs_animations["Goblin"]),
-            Character(47, common.HP_WIZARD, [5 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Wizard"]),
-            Character(48, common.HP_WIZARD, [6 * TILE_SIZE, 16 * TILE_SIZE], mobs_animations["Wizard"])
-
-        ],
-    }
-
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("King of the Undead")
     
@@ -314,12 +255,9 @@ def main():
             characters[0].pos = door.toPoint()
             for c in characters[1:]: characters.remove(c)
             map = Map(door.map_id)
-            with open("enemies.json") as file:
-                data = json.load(file)
-            
-            for c in mobs_map[door.map_id]: 
-                if c.hp > 0: 
-                    characters.append(c)
+            if door.map_id not in dead_enemies:
+                dead_enemies[door.map_id] = []
+            load_map_enemies(door.map_id)
             
         # Dont move if nor accesible
         if map.getTile(characters[0].pos) not in common.FLOOR:
@@ -338,7 +276,7 @@ def main():
         if attack:
             characters[0].is_moving = True
             dir = characters[0].attack()
-            atack_enemies_in_range(characters[0], dir)
+            atack_enemies_in_range(characters[0], dir, map.level)
 
         # Check events
         for event in pygame.event.get():
@@ -377,6 +315,9 @@ def main():
                     attack = False
 
         pygame.display.update()
+        with open("enemies.json", "w") as file:
+            json_string = json.dumps(_enemies, default=lambda o: o.__dict__, indent=4)
+            file.write(json_string)
 
 if __name__ == "__main__":
     print("Welcome to Game of the Undead")
