@@ -148,22 +148,3 @@ class Character:
         if not map.getTile(self.pos) in common.FLOOR:
             print("Fuera")
             return
-
-
-    def AI_move_a_star(self, map, pos: Point):
-        self.is_moving = True
-        moves = [common.Dir.stall]
-
-        nmap = numpy.array(map)
-
-        mob_x, mob_y = self.pos.toTuple()
-        character_x, character_y = pos.toTuple()
-
-        print(
-            a_star_matrix.astar(
-                nmap,
-                (mob_x / common.TILE_SIZE, mob_y / common.TILE_SIZE),
-                (character_x / common.TILE_SIZE, character_y / common.TILE_SIZE),
-            )
-        )
-
