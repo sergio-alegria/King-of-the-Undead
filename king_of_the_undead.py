@@ -3,13 +3,10 @@
     Contact Info:
     Sergio Alegria: sergiioalegriia@gmail.com
 """
-
-from numpy import character
 import pygame
 from Map import Map
 import common
 from Character import Character, Point
-import time 
 
 pygame.init()
 
