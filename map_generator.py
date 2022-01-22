@@ -131,15 +131,16 @@ def map_generator():
                 for row in world_data:
                     writer.writerow(row)
 
-        #save data if clicked
+        #load data if clicked
         if load_button.draw(screen):
             scroll = 0
-            with open(f'levels/level{level}_data.csv', newline='') as csvfile:
-                reader = csv.reader(csvfile, delimiter = ',')
-                for x, row in enumerate(reader):
-                    for y, tile in enumerate(row):
-                        world_data[x][y] = int(tile)
-                    
+            try:
+                with open(f'levels/level{level}_data.csv', newline='') as csvfile:
+                    reader = csv.reader(csvfile, delimiter = ',')
+                    for x, row in enumerate(reader):
+                        for y, tile in enumerate(row):
+                            world_data[x][y] = int(tile)
+            except Exception: pass        
 
         #draw tile panel and tiles
         pygame.draw.rect(screen, PURPLE, (SCREEN_WIDTH, 0, SIDE_MARGIN, SCREEN_HEIGHT))

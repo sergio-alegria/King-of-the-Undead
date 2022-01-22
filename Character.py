@@ -12,11 +12,12 @@ class Weapon:
         self.dmg = dmg
         self.range = range
 
-    def get_rect(self, pos, direction):
+    def get_rect(self, pos : tuple, direction):
+        center = (pos[0] - TILE_SIZE*2//3, pos[1] - TILE_SIZE*2//3)
         if direction == common.Dir.up or direction == common.Dir.down:
-            return pygame.Rect(pos, (self.range / 2, self.range))
+            return pygame.Rect(center, (self.range / 2, self.range))
         else:
-            return pygame.Rect(pos, (self.range, self.range / 2))
+            return pygame.Rect(center, (self.range, self.range / 2))
 
 
 class Character:
