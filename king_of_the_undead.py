@@ -154,6 +154,7 @@ def draw_map(map, x=0, y=0):
 FRAMES_PER_IMAGE = 5
 frame_counter = 0
 HP_REEGEN = 0.3
+SPEED_RUN_MUL = 1.75
 
 def draw_characters(map):
     global frame_counter
@@ -295,6 +296,8 @@ def main():
                     scroll_right = True
                 if event.key == pygame.K_SPACE:
                     attack = True
+                if event.key == pygame.K_LSHIFT:
+                    characters[0].speed = characters[0].speed * SPEED_RUN_MUL
                 if event.key == pygame.K_ESCAPE:
                     return 
 
@@ -309,15 +312,14 @@ def main():
                     scroll_left = False
                 if event.key == pygame.K_d:
                     scroll_right = False
+                if event.key == pygame.K_LSHIFT:
+                    characters[0].speed = characters[0].speed/ SPEED_RUN_MUL
                 if event.key == pygame.K_SPACE:
                     dir = characters[0].sprite_key.split('_')[0]
                     characters[0].sprite_key = f'{dir}_walk_S'
                     attack = False
 
         pygame.display.update()
-        with open("enemies.json", "w") as file:
-            json_string = json.dumps(_enemies, default=lambda o: o.__dict__, indent=4)
-            file.write(json_string)
 
 if __name__ == "__main__":
     print("Welcome to Game of the Undead")

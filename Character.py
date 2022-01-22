@@ -43,6 +43,7 @@ class Character:
         self.is_attacking = False
         self.delay_counter = 0
         self.dir = common.Dir.stall
+        self.speed = common.speed
 
     def update(self) -> None:
         if self.is_attacking and self.img_index >= len(self.sprites[self.sprite_key]):
@@ -75,13 +76,13 @@ class Character:
         new_pos = deepcopy(self.pos)
         self.is_moving = True
         if dir == common.Dir.up:
-            new_pos.update_y(common.speed)
+            new_pos.update_y(self.speed)
         elif dir == common.Dir.down:
-            new_pos.update_y(-common.speed)
+            new_pos.update_y(-self.speed)
         elif dir == common.Dir.left:
-            new_pos.update_x(-common.speed)
+            new_pos.update_x(-self.speed)
         elif dir == common.Dir.right:
-            new_pos.update_x(common.speed)
+            new_pos.update_x(self.speed)
         elif dir == common.Dir.stall: return 
         
         pos_i, pos_j = self.pos.toMatrixIndex()
@@ -94,16 +95,16 @@ class Character:
         self.prev_pos = deepcopy(self.pos)
 
         if dir == common.Dir.up:
-            self.pos.update_y(common.speed)
+            self.pos.update_y(self.speed)
             self.change_sprite("Down_walk_S")
         elif dir == common.Dir.down:
-            self.pos.update_y(-common.speed)
+            self.pos.update_y(-self.speed)
             self.change_sprite("Top_walk_S")
         elif dir == common.Dir.left:
-            self.pos.update_x(-common.speed)
+            self.pos.update_x(-self.speed)
             self.change_sprite("Lside_walk_S")
         elif dir == common.Dir.right:
-            self.pos.update_x(common.speed)
+            self.pos.update_x(self.speed)
             self.change_sprite("Rside_walk_S")
         
         return not (pos_i == new_pos_i and pos_j == new_pos_j)
