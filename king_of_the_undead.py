@@ -36,7 +36,7 @@ SCREEN_HEIGHT = common.DISPLAY_ROWS * TILE_SIZE
 SIDE_MARGIN = 400
 
 
-screen = pygame.display.set_mode((SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 screen.fill(WHITE)
 pygame.display.set_caption("King of the Undead")
 
@@ -264,9 +264,11 @@ base_y = 0
 
 
 def main():
-    global base_x, base_y, characters
+    global base_x, base_y, characters, screen
     base_x = 0
     base_y = 0
+    
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     
     attack = False
     run = True

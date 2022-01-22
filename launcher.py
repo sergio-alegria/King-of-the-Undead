@@ -22,7 +22,9 @@ MAIN_MENU_IMAGES = 6
 MAIN_MENU_CHANGE_FRAME = FPS * 3
 
 
-def main_menu():    
+def main_menu():
+    global screen
+    
     pygame.mixer.music.load(Path(common.SONG))
     pygame.mixer.music.play(-1)           # Play the music
 
@@ -57,10 +59,14 @@ def main_menu():
                 run = False
 
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
                 if event.key == pygame.K_k:
                     king_of_the_undead.main()
+                    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
                 if event.key == pygame.K_m:
                     map_generator.map_generator()
+                    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
                     
         pygame.display.update()
 
