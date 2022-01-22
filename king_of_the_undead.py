@@ -218,9 +218,7 @@ def draw_map(map, x=0, y=0):
             if tile >= 0:
                 for key, list in common.NEED_BAKGROUND.items():
                     if tile in list:
-                        #screen.blit(img_list[key],(i * TILE_SIZE - base_x, j * TILE_SIZE - base_y))
                         screen.blit(img_list[key],(i * TILE_SIZE, j * TILE_SIZE))
-                #screen.blit(img_list[tile], (i * TILE_SIZE - base_x, j * TILE_SIZE - base_y))
                 screen.blit(img_list[tile], (i * TILE_SIZE, j * TILE_SIZE))
 
 FRAMES_PER_IMAGE = 5
@@ -233,6 +231,9 @@ def draw_characters(map):
         characters[0].update()
         frame_counter = 0
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
+    # Healt bars
+    pygame.draw.rect(screen,(0,0,0),(characters[0].pos.x, characters[0].pos.y - common.TILE_SIZE*0.5, common.HEALTH_BAR_WIDTH, common.HEALTH_BAR_HEIGHT))
+    pygame.draw.rect(screen,(255,0,0),(characters[0].pos.x, characters[0].pos.y - common.TILE_SIZE*0.5 ,characters[0].hp*common.HEALTH_BAR_WIDTH / characters[0].max_hp, common.HEALTH_BAR_HEIGHT))
     for c in characters[1:]:
         if c.AI_move(characters[0], map):
             die = characters[0].receive_dmg(c.weapon.dmg)
@@ -240,11 +241,13 @@ def draw_characters(map):
                 characters.remove(characters[0])
                 print("GAME OVER!!")
                 return True
-        # c.AI_move_a_star(map, characters[0].pos)
         if frame_counter >= FRAMES_PER_IMAGE:
             c.update()
             frame_counter = 0
         screen.blit(c.image, (c.pos.x, c.pos.y))
+        pygame.draw.rect(screen,(0,0,0),(c.pos.x, c.pos.y - common.TILE_SIZE*0.5, common.HEALTH_BAR_WIDTH, common.HEALTH_BAR_HEIGHT))
+        pygame.draw.rect(screen,(255,0,0),(c.pos.x, c.pos.y - common.TILE_SIZE*0.5 ,c.hp*common.HEALTH_BAR_WIDTH / c.max_hp, common.HEALTH_BAR_HEIGHT))
+    
     return False
 
 
