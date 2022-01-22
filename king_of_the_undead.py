@@ -7,6 +7,7 @@ import pygame
 from Map import Map
 import common
 from Character import Character, Point
+import json
 
 pygame.init()
 
@@ -313,6 +314,9 @@ def main():
             characters[0].pos = door.toPoint()
             for c in characters[1:]: characters.remove(c)
             map = Map(door.map_id)
+            with open("enemies.json") as file:
+                data = json.load(file)
+            
             for c in mobs_map[door.map_id]: 
                 if c.hp > 0: 
                     characters.append(c)
