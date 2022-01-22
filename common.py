@@ -20,10 +20,10 @@ NEED_BAKGROUND = {
     0: [15, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 38]
 }
 
-HP_SKELETON = 5
-HP_GOBLIN = 5
-HP_WIZARD = 25
-HP_GHOST = 20
+HP_SKELETON = 15
+HP_GOBLIN = 10
+HP_WIZARD = 35
+HP_GHOST = 25
 
 HEALTH_BAR_WIDTH = TILE_SIZE
 HEALTH_BAR_HEIGHT = 5
@@ -83,8 +83,10 @@ class DoorLink:
 DOOR_LIST : "list[DoorLink]" = []
 
 DOOR_LIST.append(DoorLink(Door(9,3,0), Door(7,19,2)))   # Level_0 door1 to Level_2
+DOOR_LIST.append(DoorLink(Door(10,3,0), Door(8,19,2)))  # Level_0 door1 to Level_2
 DOOR_LIST.append(DoorLink(Door(24,3,0), Door(5,19,1)))  # Level_0 door2 to Level_1 door1
-DOOR_LIST.append(DoorLink(Door(14,1,1), Door(19,19,3))) # Level_1 door2 to Level_3 door1
+DOOR_LIST.append(DoorLink(Door(14,1,1), Door(20,19,3))) # Level_1 door2 to Level_3 door1
+DOOR_LIST.append(DoorLink(Door(13,1,1), Door(19,19,3))) # Level_1 door2 to Level_3 door1
 DOOR_LIST.append(DoorLink(Door(26,1,3), Door(22,19,4))) # Level_3 door2 to Level_4 door1
 DOOR_LIST.append(DoorLink(Door(4,10,4), Door(5,11,5)))  # Level_4 door2 to Level_5 door1
 

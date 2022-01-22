@@ -13,7 +13,7 @@ class Weapon:
         self.range = range
 
     def get_rect(self, pos : tuple, direction):
-        center = (pos[0] - TILE_SIZE*2//3, pos[1] - TILE_SIZE*2//3)
+        center = (pos[0] - TILE_SIZE//2, pos[1] - TILE_SIZE//3)
         if direction == common.Dir.up or direction == common.Dir.down:
             return pygame.Rect(center, (self.range / 2, self.range))
         else:
@@ -34,7 +34,7 @@ class Character:
         self.hp = hp
         self.max_hp = hp
         self.pos = self.pos = pos if isinstance(pos, Point) else Point(pos[0], pos[1])
-        self.weapon = Weapon(0.5, common.TILE_SIZE)
+        self.weapon = Weapon(1, common.TILE_SIZE) if not id else Weapon(0.5, common.TILE_SIZE//2)
         self.attacking_frames = 0
         self.attacking_counter = 0
         self.sprites = sprites

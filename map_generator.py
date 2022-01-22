@@ -140,7 +140,10 @@ def map_generator():
                     for x, row in enumerate(reader):
                         for y, tile in enumerate(row):
                             world_data[x][y] = int(tile)
-            except Exception: pass        
+            except Exception: 
+                for x in range(common.ROWS):
+                    for y in range(common.MAX_COLS):
+                        world_data[x][y] = 0  
 
         #draw tile panel and tiles
         pygame.draw.rect(screen, PURPLE, (SCREEN_WIDTH, 0, SIDE_MARGIN, SCREEN_HEIGHT))
