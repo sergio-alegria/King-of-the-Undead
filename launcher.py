@@ -64,15 +64,13 @@ def main_menu():
                 if event.key == pygame.K_k:
                     king_of_the_undead.main()
                     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+                    pygame.display.set_caption("Launcher")
                 if event.key == pygame.K_m:
                     map_generator.map_generator()
                     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-                    
+                    pygame.display.set_caption("Launcher")
         pygame.display.update()
 
-
-
-        
 
 if __name__ == "__main__":
     main_menu()

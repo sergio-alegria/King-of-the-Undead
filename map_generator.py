@@ -111,7 +111,9 @@ for i in range(len(img_list)):
 
 
 def map_generator():
-    global level, current_tile, scroll_left, scroll_right, scroll, scroll_speed
+    global level, current_tile, scroll_left, scroll_right, scroll, scroll_speed, screen
+    screen = pygame.display.set_mode((SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN))
+    pygame.display.set_caption('Level Editor')
     run = True
     while run:
 

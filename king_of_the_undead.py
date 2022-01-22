@@ -269,6 +269,7 @@ def main():
     base_y = 0
     
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption("King of the Undead")
     
     attack = False
     run = True
