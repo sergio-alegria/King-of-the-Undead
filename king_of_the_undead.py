@@ -4,11 +4,12 @@
     Sergio Alegria: sergiioalegriia@gmail.com
 """
 
+from numpy import character
 import pygame
 from Map import Map
 import common
-from pathlib import Path
 from Character import Character, Point
+import time 
 
 pygame.init()
 
@@ -231,9 +232,6 @@ def draw_characters(map):
         characters[0].update()
         frame_counter = 0
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
-    # Healt bars
-    pygame.draw.rect(screen,(0,0,0),(characters[0].pos.x, characters[0].pos.y - common.TILE_SIZE*0.5, common.HEALTH_BAR_WIDTH, common.HEALTH_BAR_HEIGHT))
-    pygame.draw.rect(screen,(255,0,0),(characters[0].pos.x, characters[0].pos.y - common.TILE_SIZE*0.5 ,characters[0].hp*common.HEALTH_BAR_WIDTH / characters[0].max_hp, common.HEALTH_BAR_HEIGHT))
     for c in characters[1:]:
         if c.AI_move(characters[0], map):
             die = characters[0].receive_dmg(c.weapon.dmg)
@@ -247,7 +245,9 @@ def draw_characters(map):
         screen.blit(c.image, (c.pos.x, c.pos.y))
         pygame.draw.rect(screen,(0,0,0),(c.pos.x, c.pos.y - common.TILE_SIZE*0.5, common.HEALTH_BAR_WIDTH, common.HEALTH_BAR_HEIGHT))
         pygame.draw.rect(screen,(255,0,0),(c.pos.x, c.pos.y - common.TILE_SIZE*0.5 ,c.hp*common.HEALTH_BAR_WIDTH / c.max_hp, common.HEALTH_BAR_HEIGHT))
-    
+    # Player helth bar
+    pygame.draw.rect(screen,(0,0,0),(characters[0].pos.x, characters[0].pos.y - common.TILE_SIZE*0.5, common.HEALTH_BAR_WIDTH, common.HEALTH_BAR_HEIGHT))
+    pygame.draw.rect(screen,(0,255,0),(characters[0].pos.x, characters[0].pos.y - common.TILE_SIZE*0.5 ,characters[0].hp*common.HEALTH_BAR_WIDTH / characters[0].max_hp, common.HEALTH_BAR_HEIGHT))
     return False
 
 
@@ -285,19 +285,17 @@ def main():
         # draw_bg()
         base_x = characters[0].pos.x
         base_y = characters[0].pos.y
-
-        changed = False
         
         prev_pos: Point = characters[0].pos
         # movement management
         if scroll_left is True:
-            changed = characters[0].move(common.Dir.left, map)
+            characters[0].move(common.Dir.left, map)
         if scroll_right is True:
-            changed = characters[0].move(common.Dir.right, map)
+            characters[0].move(common.Dir.right, map)
         if scroll_up is True:
-            changed = characters[0].move(common.Dir.down, map)
+            characters[0].move(common.Dir.down, map)
         if scroll_down is True:
-            changed = characters[0].move(common.Dir.up, map)
+            characters[0].move(common.Dir.up, map)
          
         if block_doors: 
             block_doors += 2
@@ -326,7 +324,7 @@ def main():
         screen.fill(BLACK)
         draw_map(map=map, x=int(base_x), y=int(base_y))
         is_dead = draw_characters(map)
-        if is_dead: return
+        if is_dead: run = False
 
         if attack:
             characters[0].is_moving = True
@@ -370,7 +368,6 @@ def main():
                     attack = False
 
         pygame.display.update()
-
 
 if __name__ == "__main__":
     print("Welcome to Game of the Undead")
