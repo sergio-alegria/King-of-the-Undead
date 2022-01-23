@@ -113,6 +113,17 @@ def map_generator():
     global level, current_tile, scroll_left, scroll_right, scroll, scroll_speed, screen
     screen = pygame.display.set_mode((SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN))
     pygame.display.set_caption('Level Editor')
+    scroll = 0
+    try:
+        with open(f'levels/level{level}_data.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter = ',')
+            for x, row in enumerate(reader):
+                for y, tile in enumerate(row):
+                    world_data[x][y] = int(tile)
+    except Exception: 
+        for x in range(common.ROWS):
+            for y in range(common.MAX_COLS):
+                world_data[x][y] = 0
     run = True
     while run:
 
@@ -123,7 +134,8 @@ def map_generator():
         draw_world()
 
         draw_text(f'Level: {level}', font, WHITE, 10, SCREEN_HEIGHT + LOWER_MARGIN - 90)
-        draw_text('Press UP or DOWN to change level', font, WHITE, 10, SCREEN_HEIGHT + LOWER_MARGIN - 60)
+        draw_text('Press W or S to change level', font, WHITE, 10, SCREEN_HEIGHT + LOWER_MARGIN - 60)
+        draw_text('Press A or D to scroll', font, WHITE, 10, SCREEN_HEIGHT + LOWER_MARGIN - 30)
 
         #save data if clicked
         if save_button.draw(screen):
@@ -187,8 +199,30 @@ def map_generator():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
                     level += 1
+                    scroll = 0
+                    try:
+                        with open(f'levels/level{level}_data.csv', newline='') as csvfile:
+                            reader = csv.reader(csvfile, delimiter = ',')
+                            for x, row in enumerate(reader):
+                                for y, tile in enumerate(row):
+                                    world_data[x][y] = int(tile)
+                    except Exception: 
+                        for x in range(common.ROWS):
+                            for y in range(common.MAX_COLS):
+                                world_data[x][y] = 0
                 if event.key == pygame.K_s and level > 0:
                     level -= 1
+                    scroll = 0
+                    try:
+                        with open(f'levels/level{level}_data.csv', newline='') as csvfile:
+                            reader = csv.reader(csvfile, delimiter = ',')
+                            for x, row in enumerate(reader):
+                                for y, tile in enumerate(row):
+                                    world_data[x][y] = int(tile)
+                    except Exception: 
+                        for x in range(common.ROWS):
+                            for y in range(common.MAX_COLS):
+                                world_data[x][y] = 0 
                 if event.key == pygame.K_a:
                     scroll_left = True
                 if event.key == pygame.K_d:
