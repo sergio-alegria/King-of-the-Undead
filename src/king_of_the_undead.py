@@ -17,7 +17,7 @@ FPS = 60
 with open("config/enemies.json") as f:
     _enemies = json.load(f)
 
-BLOCK_DOORS_THREASHOLD = FPS*2
+BLOCK_DOORS_THREASHOLD = FPS*1.25
 
 # define colours
 GREEN = (144, 201, 120)
