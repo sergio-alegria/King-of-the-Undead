@@ -85,7 +85,7 @@ class DoorLink:
         return self.door1, self.door2
         
 DOOR_LIST : "list[DoorLink]" = []
-with open("doors.json", "r") as jsonfile:
+with open("config/doors.json", "r") as jsonfile:
     data = json.load(jsonfile)
 for link in data["LINKS"]:
     DOOR_LIST.append(DoorLink(Door(link["d1_i"],link["d1_j"], link["d1_map_id"]), Door(link["d2_i"],link["d2_j"], link["d2_map_id"])))  

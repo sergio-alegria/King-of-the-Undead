@@ -1,4 +1,4 @@
 pip install -r requirements.txt
 
 @echo off
-"python.exe" "launcher.py"
+"python.exe" "src\launcher.py"

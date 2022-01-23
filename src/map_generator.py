@@ -1,7 +1,6 @@
 import pygame
-import button
 import csv
-import common
+import common, button
 
 pygame.init()
 

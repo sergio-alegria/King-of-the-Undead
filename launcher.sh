@@ -10,5 +10,5 @@ pip install -r requirements.txt
 python=$(which python3)
 
 # Launch main menu
-$python launcher.py
+$python src/launcher.py
 

@@ -14,7 +14,7 @@ pygame.init()
 clock = pygame.time.Clock()
 FPS = 60
 
-with open("enemies.json") as f:
+with open("config/enemies.json") as f:
     _enemies = json.load(f)
 
 BLOCK_DOORS_THREASHOLD = FPS*2
@@ -219,7 +219,7 @@ def load_map_enemies(map_id : int):
         
         :param map_id: Identifier of the map/level 
     """
-    with open("enemies.json", "r") as file:
+    with open("config/enemies.json", "r") as file:
         data = json.load(file)
         
     try:
