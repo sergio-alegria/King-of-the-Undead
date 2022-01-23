@@ -156,8 +156,9 @@ frame_counter = 0
 HP_REEGEN = 0.3
 SPEED_RUN_MUL = 1.75
 
+dead_enemies : "dict[int, list[int]]" = {0 : []}
 def draw_characters(map):
-    global frame_counter
+    global frame_counter, dead_enemies
     frame_counter += 1
     if frame_counter >= FRAMES_PER_IMAGE:
         characters[0].update()
@@ -170,6 +171,7 @@ def draw_characters(map):
             if die:
                 characters.remove(characters[0])
                 print("GAME OVER!!")
+                dead_enemies = {0 : []}
                 return True
         if frame_counter >= FRAMES_PER_IMAGE:
             c.update()
@@ -181,9 +183,6 @@ def draw_characters(map):
     pygame.draw.rect(screen,(0,0,0),(characters[0].pos.x, characters[0].pos.y - common.TILE_SIZE*0.5, common.HEALTH_BAR_WIDTH, common.HEALTH_BAR_HEIGHT))
     pygame.draw.rect(screen,(0,255,0),(characters[0].pos.x, characters[0].pos.y - common.TILE_SIZE*0.5 ,characters[0].hp*common.HEALTH_BAR_WIDTH / characters[0].max_hp, common.HEALTH_BAR_HEIGHT))
     return False
-
-
-dead_enemies : "dict[int, list[int]]" = {0 : []}
  
 def atack_enemies_in_range(character, direction, map_id):
     for e in characters[1:]:
@@ -198,10 +197,13 @@ def load_map_enemies(map_id : int):
     with open("enemies.json", "r") as file:
         data = json.load(file)
         
-    for i, c in enumerate(data[str(map_id)]):
-        if i not in dead_enemies[map_id]:
-            characters.append(Character(i, common.ENEMIES_HP[c['Type']],[c['i']*TILE_SIZE, c['j']*TILE_SIZE], mobs_animations[c["Type"]]))
-                        
+    try:
+        for i, c in enumerate(data[str(map_id)]):
+            if i not in dead_enemies[map_id]:
+                characters.append(Character(i, common.ENEMIES_HP[c['Type']],[c['i']*TILE_SIZE, c['j']*TILE_SIZE], mobs_animations[c["Type"]]))
+    except Exception: 
+        pass                 
+       
 base_x = 0
 base_y = 0
 
