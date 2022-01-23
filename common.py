@@ -7,7 +7,7 @@ DISPLAY_COLS = 30
 
 TILE_SIZE = 32
 
-TILE_TYPES = 60
+TILE_TYPES = 82
 
 ROWS = DISPLAY_ROWS
 MAX_COLS = DISPLAY_COLS
@@ -17,7 +17,8 @@ speed = 1.4
 
 # Key = backforund image, values = tile that need that bg
 NEED_BAKGROUND = {
-    0: [16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 45]
+    0: [16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 45],
+    52:[77, 78, 80, 81]
 }
 
 ENEMIES_HP = {
@@ -30,7 +31,8 @@ ENEMIES_HP = {
 HEALTH_BAR_WIDTH = TILE_SIZE
 HEALTH_BAR_HEIGHT = 5
 
-FLOOR = [0,1,2,3,4,39,13,14,20,21,17,18,15, 45]
+FLOOR = [0,1,2,3,4,11,39,40,14,20,21,17,18,15,45,46,47,48,49,50,51,52,53,54,55,56,
+        60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,79,80,81]
 
 class Dir(Enum):
     up = 0
