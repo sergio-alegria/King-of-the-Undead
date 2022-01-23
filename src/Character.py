@@ -2,16 +2,30 @@ import pygame
 import common
 import random
 from copy import deepcopy
-from common import TILE_SIZE, Point
 from Map import Map
 
 class Weapon:
-    def __init__(self, dmg, range):
+    """
+        Class that defines the weapon attributes and it's functions.
+    """
+    def __init__(self, dmg: float, range: int):
+        """
+            Init class for the weapon
+
+            :param dmg: Weapong's damage
+            :param range: Weapong's range
+        """
         self.dmg = dmg
         self.range = range
 
-    def get_rect(self, pos : tuple, direction):
-        center = (pos[0] - TILE_SIZE//2, pos[1] - TILE_SIZE//3)
+    def get_rect(self, pos : tuple, direction: common.Dir) -> pygame.Rect:
+        """
+            Function to get the weapon hitbox.
+
+            :param pos: Weapon pos
+            :param direction: Weapon direction
+        """
+        center = (pos[0] - common.TILE_SIZE//2, pos[1] - common.TILE_SIZE//3)
         if direction == common.Dir.up or direction == common.Dir.down:
             return pygame.Rect(center, (self.range / 2, self.range))
         else:
@@ -19,19 +33,25 @@ class Weapon:
 
 
 class Character:
+    """
+        Class that defines characters attributes and it's functions.
+    """
     ATTACK_FRAMES = 6
 
     def __init__(self, id, hp, pos, sprites, starting_sprite="Stall"):
         """
-        Init class for the character
+            Init class for the character
 
-        :param id: Character's id
-        :type id: int
+            :param id: Character's id
+            :param hp: Character's health
+            :param pos: Character's position
+            :param sprites: Character's sprites
+            :param starting_sprite: Character's starting sprite
         """
         self.id = id
         self.hp = hp
         self.max_hp = hp
-        self.pos = self.pos = pos if isinstance(pos, Point) else Point(pos[0], pos[1])
+        self.pos = self.pos = pos if isinstance(pos, common.Point) else common.Point(pos[0], pos[1])
         self.weapon = Weapon(1, common.TILE_SIZE) if not id else Weapon(0.5, common.TILE_SIZE//2)
         self.attacking_frames = 0
         self.attacking_counter = 0
@@ -111,7 +131,7 @@ class Character:
 
         if dir == common.Dir.up:
             self.pos.update_y(self.speed)
-            if self.pos.y > (common.ROWS)*TILE_SIZE: self.pos.update_y(-self.speed)
+            if self.pos.y > (common.ROWS)*common.TILE_SIZE: self.pos.update_y(-self.speed)
             self.change_sprite("Down_walk_S")
         elif dir == common.Dir.down:
             self.pos.update_y(-self.speed)
@@ -123,18 +143,26 @@ class Character:
             self.change_sprite("Lside_walk_S")
         elif dir == common.Dir.right:
             self.pos.update_x(self.speed)
-            if self.pos.x > (common.MAX_COLS)*TILE_SIZE: self.pos.update_x(-self.speed)
+            if self.pos.x > (common.MAX_COLS)*common.TILE_SIZE: self.pos.update_x(-self.speed)
             self.change_sprite("Rside_walk_S")
         
         return not (pos_i == new_pos_i and pos_j == new_pos_j)
                 
     def receive_dmg(self, dmg) -> bool:
+        """
+            Compute the new health after the hit, and return if the character is dead.
+
+            :param dmg: Damage received.
+        """
         self.hp -= dmg
         if self.hp <= 0:
             return True
         return False
 
     def attack(self):
+        """
+            Perform the attack changing the sprites and returning the direction and the damage
+        """
         direction = self.sprite_key.split("_")[0]
         if direction == "Stall":
             direction = "Down"
@@ -143,11 +171,13 @@ class Character:
         self.is_atacking = True
         return self.dir, self.weapon.dmg
 
-    def die(self) -> bool:
-        self.died_counter = 1
-        self.change_sprite("Dying")
-
     def AI_move(self, character, map):
+        """
+            Little algorithm for the enemies AI.
+
+            :param character: Character to move.
+            :param map: Map in where the character.
+        """
         mc_pos = character.pos
         self.is_moving = True
         moves = [common.Dir.stall]
@@ -162,9 +192,4 @@ class Character:
         self.move(moves[random.randint(0, len(moves) - 1)], map)
         
         return self.image.get_rect(center=self.pos.toTuple()).colliderect(character.weapon.get_rect(character.pos.toTuple(), common.Dir.down))
-
-
-    def check_pos(self, map):          
-        if not map.getTile(self.pos) in common.FLOOR:
-            print("Fuera")
-            return
+    
