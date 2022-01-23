@@ -6,7 +6,7 @@
 import pygame
 from Map import Map
 import common
-from Character import Character, Point
+from Character import Character
 import json
 
 pygame.init()
@@ -244,7 +244,7 @@ def main():
         base_x = characters[0].pos.x
         base_y = characters[0].pos.y
         
-        prev_pos: Point = characters[0].pos
+        prev_pos: common.Point = characters[0].pos
         # movement management
         if scroll_left is True:
             characters[0].move(common.Dir.left, map)
