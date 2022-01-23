@@ -185,25 +185,25 @@ def map_generator():
                 run = False
             #keyboard presses
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_w:
                     level += 1
-                if event.key == pygame.K_DOWN and level > 0:
+                if event.key == pygame.K_s and level > 0:
                     level -= 1
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_a:
                     scroll_left = True
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_d:
                     scroll_right = True
-                if event.key == pygame.K_RSHIFT:
+                if event.key == pygame.K_LSHIFT:
                     scroll_speed = 5
                 if event.key == pygame.K_ESCAPE:
                     return 
 
 
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_a:
                     scroll_left = False
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_d:
                     scroll_right = False
-                if event.key == pygame.K_RSHIFT:
+                if event.key == pygame.K_LSHIFT:
                     scroll_speed = 1
         pygame.display.update()

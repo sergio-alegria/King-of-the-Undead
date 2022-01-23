@@ -111,11 +111,11 @@ class Character:
 
         if dir == common.Dir.up:
             self.pos.update_y(self.speed)
-            if self.pos.y < 0: self.pos.update_y(-self.speed)
+            if self.pos.y > (common.ROWS)*TILE_SIZE: self.pos.update_y(-self.speed)
             self.change_sprite("Down_walk_S")
         elif dir == common.Dir.down:
             self.pos.update_y(-self.speed)
-            if self.pos.y > (common.ROWS)*TILE_SIZE: self.pos.update_y(self.speed)
+            if self.pos.y < 0: self.pos.update_y(self.speed)
             self.change_sprite("Top_walk_S")
         elif dir == common.Dir.left:
             self.pos.update_x(-self.speed)
