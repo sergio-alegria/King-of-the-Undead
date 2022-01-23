@@ -44,21 +44,33 @@ class Character:
         self.delay_counter = 0
         self.dir = common.Dir.stall
         self.speed = common.speed
+        self.hp_regen = 0.3
 
     def update(self) -> None:
+        """
+            Performs the periodic tasks such as update image or hp regeneration
+        """
+        # HP regeneration
+        self.hp = self.hp + self.hp_regen if self.hp < self.max_hp else self.max_hp  
         if self.is_attacking and self.img_index >= len(self.sprites[self.sprite_key]):
             self.is_attacking = False
             pass
         try:
+            # If is moving change to the next image
             if self.is_moving:
-                self.img_index = (self.img_index + 1) % len(
-                    self.sprites[self.sprite_key]
-                )
+                self.img_index = (self.img_index + 1) % len(self.sprites[self.sprite_key])
         except IndexError:
             pass
         finally:
+            # Update image frame 
             self.image = self.sprites[self.sprite_key][self.img_index]
-    def change_sprite(self, sprite_key):
+            
+    def change_sprite(self, sprite_key : str):
+        """
+            Changes the character sprite
+            
+            :param sprite_key: Sprite identifier 
+        """
         if self.is_attacking:
             return  # If attacking dont change
         self.sprite_key = sprite_key

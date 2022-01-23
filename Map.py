@@ -22,15 +22,15 @@ class Map:
             if door_link.door1.map_id == level or door_link.door2.map_id == level:
                 self.doors.append(door_link)
 
-    def check_door(self, i:int, j:int) -> common.Door:
+    def check_door(self, i:int, j:int, map_id : int) -> common.Door:
         """
             Checks whether a i,j block is a a door and what level is it linked to (None on error or no link)
         """
         for link in self.doors:
             d1, d2 = link.doors()
-            if d1.equals(i,j):
+            if d1.equals(i,j) and d1.map_id == map_id:
                 return d2
-            if d2.equals(i,j):
+            if d2.equals(i,j) and d2.map_id == map_id:
                 return d1  
         return None
     

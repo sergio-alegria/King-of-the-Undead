@@ -133,6 +133,8 @@ load_img = pygame.image.load("resources/Icons/load_btn.png").convert_alpha()
 
 # create function for drawing background
 def draw_bg():
+    """
+    """
     screen.fill(PURPLE)
     for y, row in enumerate(map):
         for x, tile in enumerate(row):
@@ -141,7 +143,12 @@ def draw_bg():
 
 
 # function for drawing the world tiles
-def draw_map(map, x=0, y=0):
+def draw_map(map : Map):
+    """
+        Displays the map tiles
+        
+        :param map: Map to be displayed
+    """
     screen.fill(BLACK)
     for j, row in enumerate(map.grid):
         for i, tile in enumerate(row):
@@ -153,18 +160,26 @@ def draw_map(map, x=0, y=0):
 
 FRAMES_PER_IMAGE = 5
 frame_counter = 0
-HP_REEGEN = 0.3
+
 SPEED_RUN_MUL = 1.75
 
 dead_enemies : "dict[int, list[int]]" = {0 : []}
-def draw_characters(map):
+def draw_characters(map : Map):
+    """
+        Draws all the characters in the given map
+        
+        :param map: Current level/map
+    """
     global frame_counter, dead_enemies
+    
     frame_counter += 1
     if frame_counter >= FRAMES_PER_IMAGE:
         characters[0].update()
         frame_counter = 0
-        characters[0].hp = characters[0].hp+HP_REEGEN if characters[0].hp < characters[0].max_hp else characters[0].max_hp  
+        
+    # Display main character
     screen.blit(characters[0].image, (characters[0].pos.x, characters[0].pos.y))
+    
     for c in characters[1:]:
         if c.AI_move(characters[0], map):
             die = characters[0].receive_dmg(c.weapon.dmg)
@@ -176,7 +191,9 @@ def draw_characters(map):
         if frame_counter >= FRAMES_PER_IMAGE:
             c.update()
             frame_counter = 0
+        # Display enemy
         screen.blit(c.image, (c.pos.x, c.pos.y))
+        # Enemy health bar
         pygame.draw.rect(screen,(0,0,0),(c.pos.x, c.pos.y - common.TILE_SIZE*0.5, common.HEALTH_BAR_WIDTH, common.HEALTH_BAR_HEIGHT))
         pygame.draw.rect(screen,(255,0,0),(c.pos.x, c.pos.y - common.TILE_SIZE*0.5 ,c.hp*common.HEALTH_BAR_WIDTH / c.max_hp, common.HEALTH_BAR_HEIGHT))
     # Player helth bar
@@ -185,6 +202,9 @@ def draw_characters(map):
     return False
  
 def atack_enemies_in_range(character, direction, map_id):
+    """
+        Check if the atack can hit any enemie based on the weapon's range and hits them
+    """
     for e in characters[1:]:
         if e.image.get_rect(center=e.pos.toTuple()).colliderect(character.weapon.get_rect(character.pos.toTuple(), direction)):
             die = e.receive_dmg(character.weapon.dmg)
@@ -194,6 +214,11 @@ def atack_enemies_in_range(character, direction, map_id):
 
 
 def load_map_enemies(map_id : int):
+    """
+        Loads the enemies for the given map_id
+        
+        :param map_id: Identifier of the map/level 
+    """
     with open("enemies.json", "r") as file:
         data = json.load(file)
         
@@ -218,8 +243,8 @@ def main():
     
     attack = False
     run = True
-    map = Map(12)
-    characters = [Character(0, 200, [10 * TILE_SIZE, 8 * TILE_SIZE,],main_character_animations,)]
+    map = Map(19)
+    characters = [Character(0, 200, [10 * TILE_SIZE, 8 * TILE_SIZE,],main_character_animations)]
     draw_map(map=map)
     
     # Display variables
@@ -251,7 +276,7 @@ def main():
             block_doors = 0
             
         # Check if door
-        door : common.Door = map.check_door(*characters[0].pos.toMatrixIndex())
+        door : common.Door = map.check_door(*characters[0].pos.toMatrixIndex(), map.level)
         if door and not block_doors:
             block_doors = 1
             # Change map
@@ -272,7 +297,7 @@ def main():
 
         # Draw the map
         screen.fill(BLACK)
-        draw_map(map=map, x=int(base_x), y=int(base_y))
+        draw_map(map=map)
         is_dead = draw_characters(map)
         if is_dead: run = False
 
