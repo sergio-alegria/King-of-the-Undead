@@ -14,9 +14,6 @@ pygame.init()
 clock = pygame.time.Clock()
 FPS = 60
 
-with open("config/enemies.json") as f:
-    _enemies = json.load(f)
-
 BLOCK_DOORS_THREASHOLD = FPS*1.25
 
 # define colours
@@ -127,20 +124,6 @@ for x in range(common.TILE_TYPES):
     img = pygame.transform.scale(pygame.image.load(f"resources/Tileset/{x}.png").convert_alpha(), (TILE_SIZE, TILE_SIZE))
     img_list.append(img)
     
-save_img = pygame.image.load("resources/Icons/save_btn.png").convert_alpha()
-load_img = pygame.image.load("resources/Icons/load_btn.png").convert_alpha()
-
-
-# create function for drawing background
-def draw_bg():
-    """
-    """
-    screen.fill(PURPLE)
-    for y, row in enumerate(map):
-        for x, tile in enumerate(row):
-            if tile >= 0:
-                screen.blit(img_list[0], (x * TILE_SIZE, y * TILE_SIZE))
-
 
 # function for drawing the world tiles
 def draw_map(map : Map):
@@ -234,6 +217,9 @@ base_y = 0
 
 
 def main():
+    """
+        King of the Undead game loop
+    """
     global base_x, base_y, characters, screen
     base_x = 0
     base_y = 0
@@ -255,7 +241,6 @@ def main():
     block_doors = 0
     while run:
         clock.tick(FPS)
-        # draw_bg()
         base_x = characters[0].pos.x
         base_y = characters[0].pos.y
         

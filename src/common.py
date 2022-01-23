@@ -21,6 +21,7 @@ NEED_BAKGROUND = {
     52:[77, 78, 80, 81]
 }
 
+# Define base enemies hp
 ENEMIES_HP = {
     "Goblin" : 10,
     "Skeleton" : 15,
@@ -28,13 +29,18 @@ ENEMIES_HP = {
     "Ghost" : 25
 }
 
+# Healt bar parameter
 HEALTH_BAR_WIDTH = TILE_SIZE
 HEALTH_BAR_HEIGHT = 5
 
+# Define which tiles the character can move to
 FLOOR = [0,1,2,3,4,11,39,40,14,20,21,17,18,15,45,46,47,52,53,54,
         60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,79,80,81]
 
 class Dir(Enum):
+    """
+        Enum to represent the possible directions a character can move
+    """
     up = 0
     down = 1
     left = 2
@@ -51,17 +57,29 @@ class Point:
         self.j = int(self.x/self.factor)
 
     def update_y(self, value):
+        """
+            Updates the y value of the point and the matrix's point index
+        """
         self.y += value
         self.i =  int(self.y/self.factor)
         
     def update_x(self, value):
+        """
+            Updates the x value of the point and the matrix's point index
+        """
         self.x += value
         self.j =  int(self.x/self.factor) 
     
     def toTuple(self):
+        """
+            Returns the point as a tuple (x,y)
+        """
         return (self.x, self.y)
 
     def toMatrixIndex(self):
+        """
+            Returns the point's index in the matrix based on the coordinates
+        """
         return self.i, self.j
     
 class Door:
@@ -70,10 +88,16 @@ class Door:
         self.j = j
         self.map_id = map_id
         
-    def equals(self, i, j):
+    def equals(self, i : int, j : int) -> bool:
+        """
+            Checks if some i,j matrix index are the same as the ones where the door is
+        """
         return self.i == j and self.j == i
     
     def toPoint(self) -> Point:
+        """
+            Return the door coordinates x,y in pixels as a Point
+        """
         return Point(self.i*TILE_SIZE, self.j*TILE_SIZE)
         
 class DoorLink:
@@ -82,8 +106,12 @@ class DoorLink:
         self.door2 : Door = door2
     
     def doors(self):
+        """
+            Returns the doors that are linked
+        """
         return self.door1, self.door2
-        
+
+# Define the door list and read it from the config/doors.json        
 DOOR_LIST : "list[DoorLink]" = []
 with open("config/doors.json", "r") as jsonfile:
     data = json.load(jsonfile)
