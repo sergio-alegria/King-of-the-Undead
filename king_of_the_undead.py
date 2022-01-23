@@ -218,7 +218,7 @@ def main():
     
     attack = False
     run = True
-    map = Map(20)
+    map = Map(12)
     characters = [Character(0, 200, [10 * TILE_SIZE, 8 * TILE_SIZE,],main_character_animations,)]
     draw_map(map=map)
     

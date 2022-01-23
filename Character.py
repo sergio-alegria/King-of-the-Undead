@@ -111,7 +111,7 @@ class Character:
             self.change_sprite("Lside_walk_S")
         elif dir == common.Dir.right:
             self.pos.update_x(self.speed)
-            if self.pos.x > (common.ROWS)*TILE_SIZE: self.pos.update_x(-self.speed)
+            if self.pos.x > (common.MAX_COLS)*TILE_SIZE: self.pos.update_x(-self.speed)
             self.change_sprite("Rside_walk_S")
         
         return not (pos_i == new_pos_i and pos_j == new_pos_j)
