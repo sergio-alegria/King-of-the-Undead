@@ -18,7 +18,7 @@ Run the following command:
 ~~~
 
 ### Team Memebers
-Software Developer: Sergio Alegria - sergiioalegriia@gmail.com
-Software Developer: Raúl Eguren - eguren71@gmail.com
-Game Design: Alejandro Benítez - alexbt2000@gmail.com
+Software Developer: Sergio Alegria - sergiioalegriia@gmail.com  
+Software Developer: Raúl Eguren - eguren71@gmail.com  
+Game Design: Alejandro Benítez - alexbt2000@gmail.com  
 
