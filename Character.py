@@ -3,7 +3,7 @@ import common
 import random
 from copy import deepcopy
 from common import TILE_SIZE, Point
-
+from Map import Map
 
 class Weapon:
     def __init__(self, dmg, range):
@@ -63,7 +63,7 @@ class Character:
             return  # If attacking dont change
         self.sprite_key = sprite_key
 
-    def move(self, dir, map) -> bool:
+    def move(self, dir : common.Dir, map : Map) -> bool:
         """
             Returns if changed tile
         """
@@ -87,24 +87,31 @@ class Character:
         
         pos_i, pos_j = self.pos.toMatrixIndex()
         new_pos_i,new_pos_j = new_pos.toMatrixIndex()
-          
+        
         if not (pos_i == new_pos_i and pos_j == new_pos_j):
-            if not map.getTile(new_pos) in common.FLOOR:
-                return False
-                 
+            try:
+                if not map.getTile(new_pos) in common.FLOOR:
+                    return False
+            except IndexError as e:
+                return False 
+             
         self.prev_pos = deepcopy(self.pos)
 
         if dir == common.Dir.up:
             self.pos.update_y(self.speed)
+            if self.pos.y < 0: self.pos.update_y(-self.speed)
             self.change_sprite("Down_walk_S")
         elif dir == common.Dir.down:
             self.pos.update_y(-self.speed)
+            if self.pos.y > (common.ROWS)*TILE_SIZE: self.pos.update_y(self.speed)
             self.change_sprite("Top_walk_S")
         elif dir == common.Dir.left:
             self.pos.update_x(-self.speed)
+            if self.pos.x < 0: self.pos.update_x(self.speed)
             self.change_sprite("Lside_walk_S")
         elif dir == common.Dir.right:
             self.pos.update_x(self.speed)
+            if self.pos.x > (common.ROWS)*TILE_SIZE: self.pos.update_x(-self.speed)
             self.change_sprite("Rside_walk_S")
         
         return not (pos_i == new_pos_i and pos_j == new_pos_j)
