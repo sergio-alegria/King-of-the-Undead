@@ -274,7 +274,7 @@ def main():
             for c in characters[1:]: characters.remove(c)
             map = Map(door.map_id)
             if door.map_id == BEACH_MAP:
-                pygame.mixer.load(BECH_SONG)
+                pygame.mixer.Sound.play(BEACH_SONG)
             if door.map_id not in dead_enemies:
                 dead_enemies[door.map_id] = []
             load_map_enemies(door.map_id)
