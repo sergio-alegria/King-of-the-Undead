@@ -25,8 +25,8 @@ BLACK = (0, 0, 0)
 
 BEACH_MAP = 20
 BEACH_SONG = "resources\Music\The_Beach_Where_Dreams_Die.wav"
-pain_sound = pygame.mixer.Sound("resources\Music\Sound_efx\Pain.wav")
-hit_sound = pygame.mixer.Sound("resources\Music\Sound_efx\Sword_hit.wav")
+pain_sound = pygame.mixer.Sound("resources/Music/Sound_efx/Pain.wav")
+hit_sound = pygame.mixer.Sound("resources/Music/Sound_efx/Sword_hit.wav")
 
 TILE_SIZE = common.TILE_SIZE
 
