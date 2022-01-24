@@ -1,5 +1,6 @@
 from enum import Enum
 import json
+from pygame import USEREVENT
 
 # Map variables
 DISPLAY_ROWS = 20
@@ -8,6 +9,8 @@ DISPLAY_COLS = 30
 TILE_SIZE = 32
 
 TILE_TYPES = 82
+
+MUSIC_END = USEREVENT+1
 
 ROWS = DISPLAY_ROWS
 MAX_COLS = DISPLAY_COLS

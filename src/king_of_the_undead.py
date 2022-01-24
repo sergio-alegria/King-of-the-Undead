@@ -234,7 +234,7 @@ def main():
     
     attack = False
     run = True
-    map = Map(0)
+    map = Map(20)
     characters = [Character(0, 200, [10 * TILE_SIZE, 8 * TILE_SIZE,],main_character_animations)]
     draw_map(map=map)
     
@@ -274,7 +274,8 @@ def main():
             for c in characters[1:]: characters.remove(c)
             map = Map(door.map_id)
             if door.map_id == BEACH_MAP:
-                pygame.mixer.Sound.play(BEACH_SONG)
+                pygame.mixer.music.load(BEACH_SONG)
+                pygame.mixer.music.play(1)
             if door.map_id not in dead_enemies:
                 dead_enemies[door.map_id] = []
             load_map_enemies(door.map_id)
@@ -337,6 +338,8 @@ def main():
                     dir = characters[0].sprite_key.split('_')[0]
                     characters[0].sprite_key = f'{dir}_walk_S'
                     attack = False
+            if event.type == common.MUSIC_END:
+                run = False
 
         pygame.display.update()
 

@@ -6,6 +6,7 @@ import common
 
 pygame.init()
 pygame.mixer.init()
+pygame.mixer.music.set_endevent(common.MUSIC_END)
 
 clock = pygame.time.Clock()
 FPS = 60
