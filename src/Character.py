@@ -177,6 +177,8 @@ class Character:
 
             :param character: Character to move.
             :param map: Map in where the character.
+            
+            :returns: True if it is in range to atack the main character
         """
         mc_pos = character.pos
         self.is_moving = True

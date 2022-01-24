@@ -23,7 +23,10 @@ RED = (200, 25, 25)
 PURPLE = (150, 150, 200)
 BLACK = (0, 0, 0)
 
-
+BEACH_MAP = 20
+BEACH_SONG = "resources\Music\The_Beach_Where_Dreams_Die.wav"
+pain_sound = pygame.mixer.Sound("resources\Music\Sound_efx\Pain.wav")
+hit_sound = pygame.mixer.Sound("resources\Music\Sound_efx\Sword_hit.wav")
 
 TILE_SIZE = common.TILE_SIZE
 
@@ -165,6 +168,7 @@ def draw_characters(map : Map):
     
     for c in characters[1:]:
         if c.AI_move(characters[0], map):
+            pygame.mixer.Sound.play(pain_sound)
             die = characters[0].receive_dmg(c.weapon.dmg)
             if die:
                 characters.remove(characters[0])
@@ -190,9 +194,10 @@ def atack_enemies_in_range(character, direction, map_id):
     """
     for e in characters[1:]:
         if e.image.get_rect(center=e.pos.toTuple()).colliderect(character.weapon.get_rect(character.pos.toTuple(), direction)):
+            pygame.mixer.Sound.play(hit_sound)
             die = e.receive_dmg(character.weapon.dmg)
             if die:
-                characters.remove(e)
+                characters.remove(e)         
                 dead_enemies[map_id].append(e.id)
 
 
@@ -268,6 +273,8 @@ def main():
             characters[0].pos = door.toPoint()
             for c in characters[1:]: characters.remove(c)
             map = Map(door.map_id)
+            if door.map_id == BEACH_MAP:
+                pygame.mixer.load(BECH_SONG)
             if door.map_id not in dead_enemies:
                 dead_enemies[door.map_id] = []
             load_map_enemies(door.map_id)
